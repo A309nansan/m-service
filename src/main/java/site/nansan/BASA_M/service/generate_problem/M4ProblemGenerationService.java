@@ -3,10 +3,10 @@ package site.nansan.BASA_M.service.generate_problem;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
-import site.nansan.BASA_M.dto.AnswerDTO;
-import site.nansan.BASA_M.dto.CarryDTO;
-import site.nansan.BASA_M.dto.ResultDTO;
-import site.nansan.BASA_M.dto.ProblemDTO;
+import site.nansan.BASA_M.dto.answer.AnswerDTO;
+import site.nansan.BASA_M.dto.answer.CarryDTO;
+import site.nansan.BASA_M.dto.answer.ResultDTO;
+import site.nansan.BASA_M.dto.problem.ProblemDTO;
 import site.nansan.BASA_M.util.RandomUtil;
 
 @Service
