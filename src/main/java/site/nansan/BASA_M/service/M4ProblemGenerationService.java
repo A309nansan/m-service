@@ -2,7 +2,7 @@ package site.nansan.BASA_M.service;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CarryDTO;
 import site.nansan.BASA_M.dto.answer.ResultDTO;
@@ -12,7 +12,7 @@ import site.nansan.BASA_M.util.RandomUtil;
 @Service
 public class M4ProblemGenerationService {
     /** 받아올림 없는 세자리 + 세자리 */
-    public CalculationResponse generateM4_1Problem() {
+    public GeneratedProblemResponse generateM4_1Problem() {
         int hundreds = RandomUtil.generateRandomIntBetween(1, 6);
         int tens = RandomUtil.generateRandomIntBetween(0, 7);
         int ones = RandomUtil.generateRandomIntBetween(0, 7);
@@ -25,7 +25,7 @@ public class M4ProblemGenerationService {
 
         int sum = operand1 + operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -38,7 +38,7 @@ public class M4ProblemGenerationService {
     }
 
     /** 받아내림 없는 세자리 - 세자리 */
-    public CalculationResponse generateM4_2Problem() {
+    public GeneratedProblemResponse generateM4_2Problem() {
         int aHundreds = RandomUtil.generateRandomIntBetween(1, 9);
         int aTens = RandomUtil.generateRandomIntBetween(0, 9);
         int aOnes = RandomUtil.generateRandomIntBetween(0, 9);
@@ -51,7 +51,7 @@ public class M4ProblemGenerationService {
 
         int diff = operand1 - operand2;
         
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -64,7 +64,7 @@ public class M4ProblemGenerationService {
     }
 
     /** 받아올림 있는 세자리 + 세자리 */
-    public CalculationResponse generateM4_3Problem() {
+    public GeneratedProblemResponse generateM4_3Problem() {
         int a = RandomUtil.generateRandomIntBetween(100,700);
         int a_h = a / 100;
         int a_t = (a / 10) % 10;
@@ -83,7 +83,7 @@ public class M4ProblemGenerationService {
         }
         int sum = a + b;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(a)
                         .second(b)
@@ -97,7 +97,7 @@ public class M4ProblemGenerationService {
     }
 
     /** 받아내림 있는 세자리 - 세자리 */
-    public CalculationResponse generateM4_4Problem() {
+    public GeneratedProblemResponse generateM4_4Problem() {
         int operand1 = RandomUtil.generateRandomIntBetween(300, 977);
         while ((operand1 / 10) % 10 == 9 && operand1 % 10 == 9) {
             operand1 = RandomUtil.generateRandomIntBetween(300, 977);
@@ -114,7 +114,7 @@ public class M4ProblemGenerationService {
         int operand2 = bHundreds * 100 + bTens * 10 + bOnes;
         int diff = operand1 - operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)

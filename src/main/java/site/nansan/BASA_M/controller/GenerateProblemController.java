@@ -3,8 +3,7 @@ package site.nansan.BASA_M.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import site.nansan.BASA_M.dto.CalculationRequest;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.service.*;
 
 @RestController
@@ -19,8 +18,8 @@ public class GenerateProblemController implements GenerateProblemSwaggerControll
     private final M6ProblemGenerationService m6ProblemGenerationService;
 
     @Override
-    public ResponseEntity<CalculationResponse> generateProblem(int group, int child) {
-        CalculationResponse response = switch (group) {
+    public ResponseEntity<GeneratedProblemResponse> generateProblem(int group, int child) {
+        GeneratedProblemResponse response = switch (group) {
             case 1 -> switch (child) {
                 case 1 -> m1ProblemGenerationService.generateM1_1Problem();
                 case 2 -> m1ProblemGenerationService.generateM1_2Problem();

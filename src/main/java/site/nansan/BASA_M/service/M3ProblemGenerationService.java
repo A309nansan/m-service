@@ -2,7 +2,7 @@ package site.nansan.BASA_M.service;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CarryDTO;
 import site.nansan.BASA_M.dto.answer.ResultDTO;
@@ -13,7 +13,7 @@ import site.nansan.BASA_M.util.RandomUtil;
 public class M3ProblemGenerationService {
 
     /** 받아올림 있는 두자리 + 한자리 */
-    public CalculationResponse generateM3_1Problem() {
+    public GeneratedProblemResponse generateM3_1Problem() {
         int operand1 = RandomUtil.generateRandomNDigitInt(2);
         while(operand1 % 10 == 0){
             operand1 = RandomUtil.generateRandomNDigitInt(2);
@@ -24,7 +24,7 @@ public class M3ProblemGenerationService {
         int operand2 = RandomUtil.generateRandomIntBetween(10 - (operand1 % 10), 9);
         int sum = operand1 + operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -38,7 +38,7 @@ public class M3ProblemGenerationService {
     }
 
     /** 받아내림 있는 두자리 - 한자리 */
-    public CalculationResponse generateM3_2Problem() {
+    public GeneratedProblemResponse generateM3_2Problem() {
         int operand1 = RandomUtil.generateRandomNDigitInt(2);
         while(operand1 % 10 == 9){
             operand1 = RandomUtil.generateRandomNDigitInt(2);
@@ -49,7 +49,7 @@ public class M3ProblemGenerationService {
         int operand2 = RandomUtil.generateRandomIntBetween((operand1 % 10) + 1, 9);
         int diff = operand1 - operand2;
         
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -63,7 +63,7 @@ public class M3ProblemGenerationService {
     }
 
     /** 받아올림 있는 두자리 + 두자리 */
-    public CalculationResponse generateM3_3Problem() {
+    public GeneratedProblemResponse generateM3_3Problem() {
         int operand1 = RandomUtil.generateRandomIntBetween(10, 87);
         while(operand1 % 10 == 0){
             operand1 = RandomUtil.generateRandomIntBetween(10, 87);
@@ -76,7 +76,7 @@ public class M3ProblemGenerationService {
         int operand2 = tensPart * 10 + onesPart;
         int sum = operand1 + operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -91,7 +91,7 @@ public class M3ProblemGenerationService {
 
 
     /** 받아내림 있는 두자리 - 두자리 */
-    public CalculationResponse generateM3_4Problem() {
+    public GeneratedProblemResponse generateM3_4Problem() {
         int operand1 = RandomUtil.generateRandomIntBetween(20, 97);
         while(operand1 % 10 == 9){
             operand1 = RandomUtil.generateRandomIntBetween(20, 97);
@@ -104,7 +104,7 @@ public class M3ProblemGenerationService {
         int operand2 = tensPart * 10 + onesPart;
         int diff = operand1 - operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)

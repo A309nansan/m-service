@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 
 public interface GenerateProblemSwaggerController {
 
@@ -19,7 +19,7 @@ public interface GenerateProblemSwaggerController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청")
     })
     @GetMapping("/basam/{group}/{child}")
-    ResponseEntity<CalculationResponse> generateProblem(
+    ResponseEntity<GeneratedProblemResponse> generateProblem(
             @PathVariable("group") int group,
             @PathVariable("child") int child
     );

@@ -2,7 +2,7 @@ package site.nansan.BASA_M.service;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CarryDTO;
 import site.nansan.BASA_M.dto.answer.ResultDTO;
@@ -13,7 +13,7 @@ import site.nansan.BASA_M.util.RandomUtil;
 public class M1ProblemGenerationService {
 
     /** 합이 9 이하인 덧셈 */
-    public CalculationResponse generateM1_1Problem() {
+    public GeneratedProblemResponse generateM1_1Problem() {
         // 1과 8은 경우의 수가 1개 밖에 없으니 가중치를 둠
         int operand1 = RandomUtil.generateRandomIntBetween(1, 8);
         if(operand1 == 1 || operand1 == 8) {
@@ -22,7 +22,7 @@ public class M1ProblemGenerationService {
         int operand2 = RandomUtil.generateRandomNDigitIntLessThan(1, 9 - operand1);
         int sum = operand1 + operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -36,7 +36,7 @@ public class M1ProblemGenerationService {
     }
 
     /** 한자리 수 끼리의 뺄셈 ( 정답 :1 이상 ) */
-    public CalculationResponse generateM1_2Problem() {
+    public GeneratedProblemResponse generateM1_2Problem() {
         int operand1 = RandomUtil.generateRandomIntBetween(2, 9);
         if(operand1 == 2) {
             operand1 = RandomUtil.generateRandomIntBetween(2, 9);
@@ -44,7 +44,7 @@ public class M1ProblemGenerationService {
         int operand2 = RandomUtil.generateRandomNDigitIntLessThan(1, operand1 - 1);
         int diff = operand1 - operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -57,7 +57,7 @@ public class M1ProblemGenerationService {
     }
 
     /** 일의 자리 수 2개의 합이 10 이상인 덧셈 */
-    public CalculationResponse generateM1_3Problem() {
+    public GeneratedProblemResponse generateM1_3Problem() {
         int operand1 = RandomUtil.generateRandomNDigitInt(1);
         if(operand1 == 1) {
             operand1 = RandomUtil.generateRandomIntBetween(2, 9);
@@ -65,7 +65,7 @@ public class M1ProblemGenerationService {
         int operand2 = RandomUtil.generateRandomIntBetween(10 - operand1, 9);
         int sum = operand1 + operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operand1)
                         .second(operand2)
@@ -79,12 +79,12 @@ public class M1ProblemGenerationService {
     }
 
     /** 10 - 몇의 뺄셈 */
-    public CalculationResponse generateM1_4Problem() {
+    public GeneratedProblemResponse generateM1_4Problem() {
         final int fixedOperand = 10;
         int operand2 = RandomUtil.generateRandomNDigitInt(1);
         int result = fixedOperand - operand2;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(fixedOperand)
                         .second(operand2)

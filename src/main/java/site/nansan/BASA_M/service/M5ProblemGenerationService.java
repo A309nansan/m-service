@@ -2,7 +2,7 @@ package site.nansan.BASA_M.service;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.CalculationResponse;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CarryDTO;
 import site.nansan.BASA_M.dto.answer.ResultDTO;
@@ -12,12 +12,12 @@ import site.nansan.BASA_M.util.RandomUtil;
 @Service
 public class M5ProblemGenerationService {
     /** 구구단을 이용한 나눗셈의 몫 구하기 */
-    public CalculationResponse generateM5_1Problem() {
+    public GeneratedProblemResponse generateM5_1Problem() {
         int multiplicand = RandomUtil.generateRandomIntBetween(1, 9);
         int multiplier = RandomUtil.generateRandomIntBetween(1, 9);
         int dividend = multiplicand * multiplier;
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(dividend)
                         .second(multiplier)
@@ -30,11 +30,11 @@ public class M5ProblemGenerationService {
     }
 
     /** 두자리 수 한자리 수 곱셈 */
-    public CalculationResponse generateM5_2Problem() {
+    public GeneratedProblemResponse generateM5_2Problem() {
         int multiplicand = RandomUtil.generateRandomNDigitInt(2);
         int multiplier = RandomUtil.generateRandomNDigitInt(1);
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(multiplicand)
                         .second(multiplier)
@@ -45,11 +45,11 @@ public class M5ProblemGenerationService {
     }
 
     /** 네자리 수 덧셈 */
-    public CalculationResponse generateM5_3Problem() {
+    public GeneratedProblemResponse generateM5_3Problem() {
         int operator1 = RandomUtil.generateRandomNDigitInt(4);
         int operator2 = RandomUtil.generateRandomNDigitInt(4);
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operator1)
                         .second(operator2)
@@ -63,14 +63,14 @@ public class M5ProblemGenerationService {
     }
 
     /** 네자리수 뺄셈 */
-    public CalculationResponse generateM5_4Problem() {
+    public GeneratedProblemResponse generateM5_4Problem() {
         int operator1 = RandomUtil.generateRandomNDigitInt(4);
         int operator2 = RandomUtil.generateRandomNDigitInt(4);
         while(operator1 < operator2){
             operator2 = RandomUtil.generateRandomNDigitInt(4);
         }
 
-        return CalculationResponse.builder()
+        return GeneratedProblemResponse.builder()
                 .problem(ProblemDTO.builder()
                         .first(operator1)
                         .second(operator2)
