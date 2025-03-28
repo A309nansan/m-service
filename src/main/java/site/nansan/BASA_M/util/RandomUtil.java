@@ -1,8 +1,5 @@
 package site.nansan.BASA_M.util;
 
-import site.nansan.BASA_M.global.exception.ProblemGenerationErrorCode;
-import site.nansan.BASA_M.global.exception.ProblemGenerationException;
-
 import java.util.Random;
 
 public class RandomUtil {
@@ -28,13 +25,13 @@ public class RandomUtil {
     /** upperBound 이하 n 자리수 랜덤 숫자 생성 */
     public static int generateRandomNDigitIntLessThan(int n, int upperBound) {
         if(n <= 0) {
-            throw new ProblemGenerationException(ProblemGenerationErrorCode.INVALID_N_VALUE);
+            throw new IllegalArgumentException("n은 양수여야 합니다.");
         }
         int min = (int) Math.pow(10, n - 1);
         int max = (int) Math.pow(10, n) - 1;
 
         if (upperBound < min || upperBound > max ) {
-            throw new ProblemGenerationException(ProblemGenerationErrorCode.INVALID_UPPER_BOUND);
+            throw new IllegalArgumentException("upperBound는 " + min + " 이상 " + max + " 이하이어야 합니다.");
         }
 
         return RANDOM.nextInt(upperBound) + min;
@@ -43,7 +40,7 @@ public class RandomUtil {
     /** lowerBound 이상, upperBound 이하 랜덤 숫자 생성 */
     public static int generateRandomIntBetween(int lowerBound, int upperBound) {
         if (lowerBound > upperBound) {
-            throw new ProblemGenerationException(ProblemGenerationErrorCode.INVALID_LOWER_BOUND);
+            throw new IllegalArgumentException("lowerBound는 upperBound보다 작거나 같아야 합니다.");
         }
         return RANDOM.nextInt(upperBound - lowerBound + 1) + lowerBound;
     }
