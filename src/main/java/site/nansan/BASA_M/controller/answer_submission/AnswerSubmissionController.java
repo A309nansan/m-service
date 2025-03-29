@@ -17,7 +17,7 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
     public ResponseEntity<?> submitAnswer(AnswerSubmissionRequest request) {
         String id = userService.getAuthenticatedUserId();
 
-        int point = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer());
+        int point = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
         return ResponseEntity.ok(point);
     }
 }

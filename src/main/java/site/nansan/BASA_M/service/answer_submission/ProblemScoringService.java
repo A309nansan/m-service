@@ -1,6 +1,7 @@
 package site.nansan.BASA_M.service.answer_submission;
 
 import org.springframework.stereotype.Service;
+import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CalculateDTO;
 import site.nansan.BASA_M.dto.answer.ResultDTO;
@@ -8,7 +9,7 @@ import site.nansan.BASA_M.dto.answer.ResultDTO;
 @Service
 public class ProblemScoringService {
 
-    public int computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer) {
+    public int computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer, Operator problemOperator) {
         int score = expectedAnswer.calculateAnswerScore();
 
         int expectedResultScore = expectedAnswer.getResult().getSize();
@@ -16,6 +17,8 @@ public class ProblemScoringService {
 
         if(isAnswerFullyCorrect(expectedResultScore, userScore)){
             return score;
+        } else if(problemOperator == Operator.DIV){
+            return 0;
         }
 
         if (expectedAnswer.getCalculate1() != null && submittedAnswer.getCalculate1() != null)
