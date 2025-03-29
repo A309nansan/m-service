@@ -14,7 +14,7 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
     @Bean
-    public OpenAPI EnServiceOpenAPI() {
+    public OpenAPI MServiceOpenAPI() {
 
         return new OpenAPI()
                 .servers(List.of(
