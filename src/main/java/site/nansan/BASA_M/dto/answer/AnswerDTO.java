@@ -1,5 +1,6 @@
 package site.nansan.BASA_M.dto.answer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
@@ -8,15 +9,27 @@ import lombok.Data;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnswerDTO {
+    ResultDTO result;
     CarryDTO carry2;
     CarryDTO carry1;
     CalculateDTO calculate1;
     CalculateDTO calculate2;
     CalculateDTO calculate3;
     Integer remainder;
-    ResultDTO result;
 
-    public static AnswerDTO calculateOneDigitMultiplication(int a, int b) {
+    @JsonIgnore
+    public int calculateAnswerScore(){
+        int score = 0;
+        if(result != null) score += result.getSize();
+        if(calculate1 != null) score += calculate1.getSize();
+        if(calculate2 != null) score += calculate2.getSize();
+        if(calculate3 != null) score += calculate3.getSize();
+        if(remainder != null) score += 1;
+
+        return score;
+    }
+
+    public static AnswerDTO calculateOneDigitMultiplication(int a, int b, boolean isOnlyForOneDigitMultiplication) {
         int carryIdx = 1, calculateIdx = 0, currentCarry = 0;
         String aString = String.valueOf(a);
 

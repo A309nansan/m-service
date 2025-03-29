@@ -1,25 +1,21 @@
 package site.nansan.BASA_M.service.answer_submission;
 
 import org.springframework.stereotype.Service;
-import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.AnswerEvaluationDTO;
-import site.nansan.BASA_M.dto.AnswerDTO;
-import site.nansan.BASA_M.dto.CalculateDTO;
-import site.nansan.BASA_M.dto.ResultDTO;
+import site.nansan.BASA_M.dto.answer.AnswerDTO;
+import site.nansan.BASA_M.dto.answer.CalculateDTO;
+import site.nansan.BASA_M.dto.answer.ResultDTO;
 
 @Service
 public class ProblemScoringService {
 
-    public AnswerEvaluationDTO computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer, Operator problemOperator) {
+    public int computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer) {
         int score = expectedAnswer.calculateAnswerScore();
 
         int expectedResultScore = expectedAnswer.getResult().getSize();
         int userScore = scoreResultDigits(expectedResultScore, expectedAnswer.getResult(), submittedAnswer.getResult());
 
         if(isAnswerFullyCorrect(expectedResultScore, userScore)){
-            return new AnswerEvaluationDTO(true, expectedResultScore, score);
-        } else if(problemOperator == Operator.DIV){
-            return new AnswerEvaluationDTO(false, expectedResultScore, 0);
+            return score;
         }
 
         if (expectedAnswer.getCalculate1() != null && submittedAnswer.getCalculate1() != null)
@@ -32,7 +28,7 @@ public class ProblemScoringService {
         if(expectedAnswer.getRemainder() != null)
             userScore += calculateRemainderScore(expectedAnswer.getRemainder(), submittedAnswer.getRemainder());
 
-        return new AnswerEvaluationDTO(false, expectedResultScore, userScore);
+        return userScore;
     }
 
     private int scoreResultDigits(int resultCount, ResultDTO expectedResult, ResultDTO submittedResult) {

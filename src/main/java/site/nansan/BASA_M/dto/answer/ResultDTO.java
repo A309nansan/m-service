@@ -1,7 +1,7 @@
 package site.nansan.BASA_M.dto.answer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -46,5 +46,26 @@ public class ResultDTO {
         if( five != null ) result += five*10000;
 
         return result;
+    }
+
+    @JsonIgnore
+    public int getSize(){
+        if(five != null) return 5;
+        else if(four != null) return 4;
+        else if(three != null) return 3;
+        else if(two != null) return 2;
+        else if(one != null) return 1;
+        else return 0;
+    }
+
+    public int getDigitAt(int pos){
+        return switch (pos) {
+            case 0 -> one != null ? one : -1;
+            case 1 -> two != null ? two : -1;
+            case 2 -> three != null ? three : -1;
+            case 3 -> four != null ? four : -1;
+            case 4 -> five != null ? five : -1;
+            default -> 0;
+        };
     }
 }
