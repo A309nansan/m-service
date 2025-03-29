@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final HttpServletRequest request;
 
-    public Long getAuthenticatedUserId() {
+    public String getAuthenticatedUserId() {
         String userIdHeader = request.getHeader("X-User-Id");
 
         if (userIdHeader == null) {
             return null;
         }
-        return Long.valueOf(userIdHeader);
+        return userIdHeader;
     }
 
 }
