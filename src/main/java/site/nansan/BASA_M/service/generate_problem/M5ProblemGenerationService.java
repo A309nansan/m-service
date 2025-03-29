@@ -40,7 +40,7 @@ public class M5ProblemGenerationService {
                         .second(multiplier)
                         .operator(Operator.MULT)
                         .build())
-                .answer(AnswerDTO.calculateOneDigitMultiplication(multiplicand, multiplier))
+                .answer(AnswerDTO.calculateOneDigitMultiplication(multiplicand, multiplier, true))
                 .build();
     }
 

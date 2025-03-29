@@ -1,5 +1,6 @@
 package site.nansan.BASA_M.dto.answer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -90,5 +91,10 @@ public class CarryDTO {
             position++;
         }
         return dto;
+    }
+
+    @JsonIgnore
+    public boolean isNull(){
+        return one == null && two == null && three == null && four == null && five == null;
     }
 }

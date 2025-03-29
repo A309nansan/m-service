@@ -43,15 +43,21 @@ public class AnswerDTO {
             updateCalculate(calculate, calculateIdx, currentCarry);
         }
 
+        if(isOnlyForOneDigitMultiplication){
+            return AnswerDTO.builder()
+                    .carry1(carry.isNull() ? null : carry)
+                    .result(result)
+                    .build();
+        }
         return AnswerDTO.builder()
-                .carry1(carry)
+                .carry1(carry.isNull() ? null : carry)
                 .calculate1(calculate)
                 .result(result)
                 .build();
     }
 
     public static AnswerDTO calculateTwoDigitMultiplication(int a, int b) {
-        AnswerDTO answer = calculateOneDigitMultiplication(a,b%10);
+        AnswerDTO answer = calculateOneDigitMultiplication(a,b%10, false);
 
         int carryIdx = 2, calculateIdx = 1, currentCarry = 0;
         String aString = String.valueOf(a);
@@ -205,6 +211,4 @@ public class AnswerDTO {
             default -> {}
         }
     }
-
-
 }
