@@ -108,7 +108,7 @@ public class AnswerDTO {
                 .build();
     }
     public static AnswerDTO calculateDivision(int a, int b){
-        if(a/b<10){
+        if(a / b < 10){
             return calculateLessThenTenDivision(a,b);
         }
         CalculateDTO calculate1 = new CalculateDTO();
@@ -119,44 +119,44 @@ public class AnswerDTO {
 
         int baseNumber = a;
         int lineOneNumber=0;
-        if(a>=100){
+        if(a >= 100){
             // 앞 두 숫자 구하기. a가 100 미만이기 때문에 첫 번째 자리에서 한번에 나뉘는 경우는 생략해도됨
-            baseNumber = (a/100*10) + (a/10%10);//54
-            lineOneNumber = baseNumber/b*b;//9 -> 9*6 = 54
-            int lineOneDigitThree = lineOneNumber/10;
-            int lineOneDigitTwo = lineOneNumber%10;
+            baseNumber = (a / 100 * 10) + (a / 10 % 10);
+            lineOneNumber = baseNumber / b * b;
+            int lineOneDigitThree = lineOneNumber / 10;
+            int lineOneDigitTwo = lineOneNumber % 10;
             calculate1.setThree(lineOneDigitThree);
             calculate1.setTwo(lineOneDigitTwo);
         } else {
-            baseNumber = a/10;//6
-            lineOneNumber = baseNumber/b*b;
+            baseNumber = a / 10;
+            lineOneNumber = baseNumber / b * b;
             calculate1.setTwo(lineOneNumber);
         }
-        int lineTwoNumber = a-(lineOneNumber*10);
-        if(lineTwoNumber==0){
-            remainNumber=0;
+        int lineTwoNumber = a-(lineOneNumber * 10);
+        if(lineTwoNumber == 0){
+            remainNumber = 0;
         }
-        else if(lineTwoNumber <10){
+        else if(lineTwoNumber < 10){
             calculate2.setOne(lineTwoNumber);
 
-            int lineThreeNumber = lineTwoNumber/b*b;
+            int lineThreeNumber = lineTwoNumber / b * b;
             calculate3.setOne(lineThreeNumber);
 
-            if(lineTwoNumber-lineThreeNumber!=0){
-                remainNumber=lineTwoNumber-lineThreeNumber;
+            if(lineTwoNumber-lineThreeNumber != 0){
+                remainNumber = lineTwoNumber - lineThreeNumber;
             } else {
-                remainNumber=0;
+                remainNumber = 0;
             }
         } else {
-            calculate2.setTwo(lineTwoNumber/10);
-            calculate2.setOne(lineTwoNumber%10);
+            calculate2.setTwo(lineTwoNumber / 10);
+            calculate2.setOne(lineTwoNumber % 10);
 
-            int lineThreeNumber = lineTwoNumber/b*b;
-            calculate3.setTwo(lineThreeNumber/10);
-            calculate3.setOne(lineThreeNumber%10);
+            int lineThreeNumber = lineTwoNumber / b * b;
+            calculate3.setTwo(lineThreeNumber / 10);
+            calculate3.setOne(lineThreeNumber % 10);
 
             if(lineTwoNumber-lineThreeNumber != 0){
-                remainNumber = lineTwoNumber-lineThreeNumber;
+                remainNumber = lineTwoNumber - lineThreeNumber;
             } else {
                 remainNumber=0;
             }
