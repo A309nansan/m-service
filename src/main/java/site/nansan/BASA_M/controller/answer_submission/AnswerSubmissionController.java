@@ -19,5 +19,7 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
 
         int point = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
         return ResponseEntity.ok(point);
+        AnswerEvaluationDTO evaluatedAnswer = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
+        return ResponseEntity.ok(evaluatedAnswer.getScore());
     }
 }

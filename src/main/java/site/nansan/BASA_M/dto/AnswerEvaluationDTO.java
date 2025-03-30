@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AnswerEvaluationDTO {
-    Boolean isCorrect;
-    int basaTotalScore;
-    int basaMyScore;
+    boolean isCorrect;
+    int score;
 }
