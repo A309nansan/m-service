@@ -3,6 +3,8 @@ package site.nansan.BASA_M.dto.answer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import site.nansan.BASA_M.global.exception.AnswerSubmissionErrorCode;
+import site.nansan.BASA_M.global.exception.AnswerSubmissionException;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,6 +20,10 @@ public class ResultDTO {
     }
 
     public static ResultDTO from(int number){
+        if(number < 0){
+            throw new AnswerSubmissionException(AnswerSubmissionErrorCode.NUMBER_CANNOT_MINUS);
+        }
+
         String numStr = String.valueOf(number);
         int len = numStr.length();
 
