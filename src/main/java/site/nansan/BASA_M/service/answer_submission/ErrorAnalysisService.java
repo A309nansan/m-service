@@ -3,14 +3,18 @@ package site.nansan.BASA_M.service.answer_submission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
+import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 import site.nansan.BASA_M.dto.answer.AnswerDTO;
 import site.nansan.BASA_M.dto.answer.CarryDTO;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class ErrorAnalysisService {
-    public void findCause(AnswerSubmissionRequest request){
+    public Set<ProblemErrorCode> findCause(AnswerSubmissionRequest request){
         int operand1 = request.getGeneratedProblem().getFirst();
         int operand2 = request.getGeneratedProblem().getSecond();
         Operator operator = request.getGeneratedProblem().getOperator();
@@ -19,24 +23,27 @@ public class ErrorAnalysisService {
         AnswerDTO userAnswer = request.getUserAnswer();
         int submittedResult = request.getUserAnswer().getResult().toNumber();
 
-        // 잘못된 연산 - 다른 연산 방법으로 문제 해결
-        boolean isCauseOfIncorrectOperation = isIncorrectDueToOperation(operand1, operand2, operator, submittedResult);
-        // 결함있는 알고리즘 - 큰 수에서 작은 수를 빼는 오류
-        boolean isAlwaysSubtractingLargerFromSmaller = isLargerMinusSmallerOnly(operand1, operand2, operator, submittedResult);
-        // 결함있는 알고리즘 - 덧셈에 곱셈처럼 알고리즘 섞기
-        boolean isAdditionAlgorithmMixedError = isAlgorithmMixedError(operand1, operand2, operator, submittedResult);
-        // 받아올림과 받아내림 오류
-        boolean isCarryError = error5(operand1, operand2, operator, generatedAnswer, userAnswer, submittedResult);
-        // 잘못된 자리에 답을 쓰는 경우
-        boolean isWrongPosition = isWrongPosition(generatedAnswer.getResult().toNumber(), submittedResult);
-        // 계산산의 오류 - 받아 올림은 맞는데 계산실수
-        boolean hasCarryConceptButWrongAnswer = !isCauseOfIncorrectOperation && !isAlwaysSubtractingLargerFromSmaller && !isAdditionAlgorithmMixedError && !isCarryError && !isWrongPosition;
+        Set<ProblemErrorCode> errorCodes = EnumSet.noneOf(ProblemErrorCode.class);
+        if (isIncorrectDueToOperation(operand1, operand2, operator, submittedResult)) {
+            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION);
+        }
+        if (isLargerMinusSmallerOnly(operand1, operand2, operator, submittedResult)) {
+            errorCodes.add(ProblemErrorCode.LARGER_MINUS_SMALLER);
+        }
+        if (isAlgorithmMixedError(operand1, operand2, operator, submittedResult)) {
+            errorCodes.add(ProblemErrorCode.ALGORITHM_MIXED_ERROR);
+        }
+        if (isCarryError(operand1, operand2, operator, generatedAnswer, userAnswer, submittedResult)) {
+            errorCodes.add(ProblemErrorCode.CARRY_ERROR);
+        }
+        if(isWrongPosition(generatedAnswer.getResult().toNumber(), submittedResult)){
+            errorCodes.add(ProblemErrorCode.WRONG_POSITION);
+        }
+        if(errorCodes.isEmpty()){
+            errorCodes.add(ProblemErrorCode.CALCULATE_WRONG);
+        }
 
-        System.out.println("잘못된 연산 - 다른 연산 방법으로 문제 해결: "+ isCauseOfIncorrectOperation);
-        System.out.println("계산산의 오류 : "+hasCarryConceptButWrongAnswer);
-        System.out.println("결함있는 알고리즘 - 큰 수에서 작은 수를 빼는 오류 : "+isAlwaysSubtractingLargerFromSmaller);
-        System.out.println("결함있는 알고리즘 - 덧셈에 곱셈처럼 알고리즘 섞기 : "+isAdditionAlgorithmMixedError);
-        System.out.println("받아올림과 받아내림 오류 : "+isCarryError);
+        return errorCodes;
     }
 
     /**
@@ -154,7 +161,7 @@ public class ErrorAnalysisService {
      * 오류 유형 5
      * carry 틀림 || carry 맞지만 계산을 안함
      */
-    public boolean error5(int operand1, int operand2, Operator operator, AnswerDTO generatedAnswer, AnswerDTO userAnswer, int submittedResult) {
+    public boolean isCarryError(int operand1, int operand2, Operator operator, AnswerDTO generatedAnswer, AnswerDTO userAnswer, int submittedResult) {
         if(operator == Operator.DIV)
             return false;
 
