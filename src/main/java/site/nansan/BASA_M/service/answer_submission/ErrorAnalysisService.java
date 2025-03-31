@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
-import site.nansan.BASA_M.dto.answer.AnswerDTO;
-import site.nansan.BASA_M.dto.answer.CarryDTO;
+import site.nansan.BASA_M.dto.AnswerDTO;
+import site.nansan.BASA_M.dto.CarryDTO;
 
 import java.util.EnumSet;
 import java.util.Set;

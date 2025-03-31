@@ -3,9 +3,9 @@ package site.nansan.BASA_M.service.answer_submission;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.dto.AnswerEvaluationDTO;
-import site.nansan.BASA_M.dto.answer.AnswerDTO;
-import site.nansan.BASA_M.dto.answer.CalculateDTO;
-import site.nansan.BASA_M.dto.answer.ResultDTO;
+import site.nansan.BASA_M.dto.AnswerDTO;
+import site.nansan.BASA_M.dto.CalculateDTO;
+import site.nansan.BASA_M.dto.ResultDTO;
 
 @Service
 public class ProblemScoringService {

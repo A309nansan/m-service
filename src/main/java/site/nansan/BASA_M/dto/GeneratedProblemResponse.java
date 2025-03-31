@@ -3,8 +3,6 @@ package site.nansan.BASA_M.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import site.nansan.BASA_M.dto.answer.AnswerDTO;
-import site.nansan.BASA_M.dto.problem.ProblemDTO;
 
 @Data
 @Builder
