@@ -6,6 +6,7 @@ import lombok.Data;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -14,27 +15,20 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserSolvedProblemResultDTO {
     private int problemNumber;
-    private String solvedTime;
+    private LocalDateTime solvedTime;
 
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;
     private AnswerDTO userAnswer;
-
-    private boolean isCorrect;
-    private int basaTotalScore;
-    private int basaUserScore;
     private Set<ProblemErrorCode> errorCodes;
 
     public static UserSolvedProblemResultDTO from(UserSolvedProblem entity) {
         return UserSolvedProblemResultDTO.builder()
                 .problemNumber(entity.getProblemNumber())
-                .isCorrect(entity.getIsCorrect())
                 .solvedTime(entity.getSolvedTime())
                 .generatedProblem(entity.getGeneratedProblem())
                 .generatedAnswer(entity.getGeneratedAnswer())
                 .userAnswer(entity.getUserAnswer())
-                .basaTotalScore(entity.getBasaTotalScore())
-                .basaUserScore(entity.getBasaMyScore())
                 .errorCodes(entity.getErrorCodes())
                 .build();
     }

@@ -35,12 +35,12 @@ public class UserSolvedProblemResultResponse {
                 .sorted(Map.Entry.<LocalDate, List<UserSolvedProblem>>comparingByKey().reversed())
                 .map(entry -> {
                     LocalDate date = entry.getKey();
-                    List<UserSolvedProblemResultDTO> userSolvedProblemResultDTOS = entry.getValue().stream()
+                    List<UserSolvedProblemResultDTO> dtos = entry.getValue().stream()
                             .map(UserSolvedProblemResultDTO::from)
                             .collect(Collectors.toList());
                     return UserSolvedProblemResultResponse.builder()
                             .solvedDate(date)
-                            .problems(userSolvedProblemResultDTOS)
+                            .problems(dtos)
                             .build();
                 })
                 .collect(Collectors.toList());
