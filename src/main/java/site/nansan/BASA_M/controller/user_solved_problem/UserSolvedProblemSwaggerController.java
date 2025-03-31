@@ -17,7 +17,7 @@ public interface UserSolvedProblemSwaggerController {
             description = "group과 child를 통해 생성된 categoryCode로 데이터를 조회한 후, solvedDate별로 그룹화하여 최신 날짜 순으로 정렬된 문제풀이 기록을 반환합니다."
     )
     @ApiResponse(responseCode = "200", description = "조회 성공")
-    @GetMapping("/basam/problems/{group}/{child}")
+    @GetMapping("/problems/{group}/{child}")
     ResponseEntity<List<UserSolvedProblemResultResponse>> getProblemsGroupedByDate(
             @PathVariable("group") int group,
             @PathVariable("child") int child

@@ -18,7 +18,7 @@ public interface GenerateProblemSwaggerController {
             @ApiResponse(responseCode = "200", description = "문제 생성 성공"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청")
     })
-    @GetMapping("/basam/{group}/{child}")
+    @GetMapping("/{group}/{child}")
     ResponseEntity<GeneratedProblemResponse> generateProblem(
             @PathVariable("group") int group,
             @PathVariable("child") int child

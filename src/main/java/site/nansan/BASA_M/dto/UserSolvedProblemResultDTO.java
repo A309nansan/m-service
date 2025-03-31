@@ -6,7 +6,6 @@ import lombok.Data;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
