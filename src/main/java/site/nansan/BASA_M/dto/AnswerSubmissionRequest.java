@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import site.nansan.BASA_M.dto.answer.AnswerDTO;
-import site.nansan.BASA_M.dto.problem.ProblemDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnswerSubmissionRequest {
+    private int problemNumber;
     private LocalDate solvedDate;
     private LocalDateTime solvedTime;
 

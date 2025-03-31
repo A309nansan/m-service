@@ -23,6 +23,7 @@ public class UserSolvedProblem {
     private LocalDate solvedDate;
     private LocalDateTime solvedTime;
     private int categoryCode;
+    private int problemNumber;
 
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;

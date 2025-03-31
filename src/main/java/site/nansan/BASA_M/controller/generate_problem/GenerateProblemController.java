@@ -8,10 +8,13 @@ import site.nansan.BASA_M.global.exception.ProblemGenerationErrorCode;
 import site.nansan.BASA_M.global.exception.ProblemGenerationException;
 import site.nansan.BASA_M.service.generate_problem.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 public class GenerateProblemController implements GenerateProblemSwaggerController {
 
+    private final ProblemNumberService problemNumberService;
     private final M1ProblemGenerationService m1ProblemGenerationService;
     private final M2ProblemGenerationService m2ProblemGenerationService;
     private final M3ProblemGenerationService m3ProblemGenerationService;
@@ -21,6 +24,7 @@ public class GenerateProblemController implements GenerateProblemSwaggerControll
 
     @Override
     public ResponseEntity<GeneratedProblemResponse> generateProblem(int group, int child) {
+        int problemNumber = problemNumberService.getNextProblemNumber(LocalDate.now(),group * 100 + child);
         GeneratedProblemResponse response = switch (group) {
             case 1 -> switch (child) {
                 case 1 -> m1ProblemGenerationService.generateM1_1Problem();
@@ -68,6 +72,8 @@ public class GenerateProblemController implements GenerateProblemSwaggerControll
             };
             default -> throw new ProblemGenerationException(ProblemGenerationErrorCode.MEMBER_VALIDATION_COUNT_FAILED);
         };
+        response.setProblemNumber(problemNumber);
+
         return ResponseEntity.ok(response);
     }
 }

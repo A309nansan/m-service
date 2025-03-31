@@ -10,6 +10,7 @@ import site.nansan.BASA_M.dto.problem.ProblemDTO;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GeneratedProblemResponse {
+    private int problemNumber;
     private ProblemDTO problem;
     private AnswerDTO answer;
 }
