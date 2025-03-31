@@ -2,11 +2,9 @@ package site.nansan.BASA_M.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
-import site.nansan.BASA_M.dto.AnswerEvaluationDTO;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 import site.nansan.BASA_M.dto.UserSolvedProblemResultResponse;
 import site.nansan.BASA_M.repository.UserSolvedProblemRepository;
@@ -19,8 +17,7 @@ import java.util.Set;
 public class UserSolvedProblemService {
     private final UserSolvedProblemRepository repository;
 
-    @Async
-    public void saveUserSolvedProblem(String id, AnswerSubmissionRequest request, AnswerEvaluationDTO evaluatedAnswer, Set<ProblemErrorCode> errorCodes, int group, int child) {
+    public UserSolvedProblem saveUserSolvedProblem(String id, AnswerSubmissionRequest request, Set<ProblemErrorCode> errorCodes, int group, int child) {
         int categoryCode = group * 100 + child;
 
         UserSolvedProblem problem = UserSolvedProblem.builder()
@@ -32,13 +29,10 @@ public class UserSolvedProblemService {
                 .generatedProblem(request.getGeneratedProblem())
                 .generatedAnswer(request.getGeneratedAnswer())
                 .userAnswer(request.getUserAnswer())
-                .isCorrect(evaluatedAnswer.getIsCorrect())
-                .basaTotalScore(evaluatedAnswer.getBasaTotalScore())
-                .basaMyScore(evaluatedAnswer.getBasaMyScore())
                 .errorCodes(errorCodes)
                 .build();
 
-        repository.save(problem);
+        return repository.save(problem);
     }
 
     public List<UserSolvedProblemResultResponse> getProblemsGroupedByDate(int group, int child) {
