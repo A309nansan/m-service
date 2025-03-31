@@ -19,11 +19,14 @@ public class UserSolvedProblemResultDTO {
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;
     private AnswerDTO userAnswer;
+
+    private boolean isCorrect;
     private Set<ProblemErrorCode> errorCodes;
 
     public static UserSolvedProblemResultDTO from(UserSolvedProblem entity) {
         return UserSolvedProblemResultDTO.builder()
                 .problemNumber(entity.getProblemNumber())
+                .isCorrect(entity.getIsCorrect())
                 .solvedTime(entity.getSolvedTime())
                 .generatedProblem(entity.getGeneratedProblem())
                 .generatedAnswer(entity.getGeneratedAnswer())

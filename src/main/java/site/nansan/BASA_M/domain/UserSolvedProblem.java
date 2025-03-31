@@ -31,5 +31,7 @@ public class UserSolvedProblem {
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;
     private AnswerDTO userAnswer;
+
+    private Boolean isCorrect;
     private Set<ProblemErrorCode> errorCodes;
 }
