@@ -2,6 +2,7 @@ package site.nansan.BASA_M.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
@@ -17,7 +18,8 @@ import java.util.Set;
 public class UserSolvedProblemService {
     private final UserSolvedProblemRepository repository;
 
-    public UserSolvedProblem saveUserSolvedProblem(String id, AnswerSubmissionRequest request, Set<ProblemErrorCode> errorCodes, int group, int child) {
+    @Async
+    public void saveUserSolvedProblem(String id, AnswerSubmissionRequest request, Set<ProblemErrorCode> errorCodes, int group, int child) {
         int categoryCode = group * 100 + child;
 
         UserSolvedProblem problem = UserSolvedProblem.builder()
@@ -32,7 +34,7 @@ public class UserSolvedProblemService {
                 .errorCodes(errorCodes)
                 .build();
 
-        return repository.save(problem);
+        repository.save(problem);
     }
 
     public List<UserSolvedProblemResultResponse> getProblemsGroupedByDate(int group, int child) {
