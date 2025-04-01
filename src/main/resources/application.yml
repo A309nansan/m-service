@@ -34,7 +34,11 @@ spring:
   data:
     # MongoDB
     mongodb:
-      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/m-mongodb?authSource=admin
+      host: ${MONGODB_HOST}
+      port: ${MONGODB_PORT}
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
+      database: m-mongodb
       authentication-database: admin
     # Redis
     redis:
