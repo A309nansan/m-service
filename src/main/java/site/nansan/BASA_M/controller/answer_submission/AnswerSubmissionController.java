@@ -26,10 +26,10 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
         String id = userService.getAuthenticatedUserId();
         Set<ProblemErrorCode> errorCodes = null;
         AnswerEvaluationDTO evaluatedAnswer = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
-        if(!evaluatedAnswer.isCorrect()){
+        if(!evaluatedAnswer.getIsCorrect()){
             errorCodes = errorAnalysisService.findCause(request);
         }
-        userSolvedProblemService.saveUserSolvedProblem(id, request, errorCodes, group, child);
+        userSolvedProblemService.saveUserSolvedProblem(id, request, evaluatedAnswer.getIsCorrect(), errorCodes, group, child);
 
         return ResponseEntity.ok(evaluatedAnswer.getScore());
     }

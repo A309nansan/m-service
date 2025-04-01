@@ -19,7 +19,7 @@ public class UserSolvedProblemService {
     private final UserSolvedProblemRepository repository;
 
     @Async
-    public void saveUserSolvedProblem(String id, AnswerSubmissionRequest request, Set<ProblemErrorCode> errorCodes, int group, int child) {
+    public void saveUserSolvedProblem(String id, AnswerSubmissionRequest request, Boolean isCorrect, Set<ProblemErrorCode> errorCodes, int group, int child) {
         int categoryCode = group * 100 + child;
 
         UserSolvedProblem problem = UserSolvedProblem.builder()
@@ -31,6 +31,7 @@ public class UserSolvedProblemService {
                 .generatedProblem(request.getGeneratedProblem())
                 .generatedAnswer(request.getGeneratedAnswer())
                 .userAnswer(request.getUserAnswer())
+                .isCorrect(isCorrect)
                 .errorCodes(errorCodes)
                 .build();
 
