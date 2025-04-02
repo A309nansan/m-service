@@ -23,7 +23,7 @@ public class UserSolvedProblem {
     private String id;
     private String studentId;
     private LocalDate solvedDate;
-    private LocalDateTime solvedTime;
+    private String solvedTime;
 
     private int categoryCode;
     private int problemNumber;

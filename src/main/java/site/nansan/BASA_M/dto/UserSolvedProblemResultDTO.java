@@ -14,7 +14,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserSolvedProblemResultDTO {
     private int problemNumber;
-    private LocalDateTime solvedTime;
+    private String solvedTime;
 
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;

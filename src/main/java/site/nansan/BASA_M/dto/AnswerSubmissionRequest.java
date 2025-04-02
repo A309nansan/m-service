@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class AnswerSubmissionRequest {
     private int problemNumber;
     private LocalDate solvedDate;
-    private LocalDateTime solvedTime;
+    private String solvedTime;
 
     private ProblemDTO generatedProblem;
     private AnswerDTO generatedAnswer;
