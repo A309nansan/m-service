@@ -27,7 +27,7 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
         Set<ProblemErrorCode> errorCodes = null;
         AnswerEvaluationDTO evaluatedAnswer = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
         if(!evaluatedAnswer.getIsCorrect()){
-            errorCodes = errorAnalysisService.findCause(request);
+            errorCodes = errorAnalysisService.findCause(request, group, child);
         }
         userSolvedProblemService.saveUserSolvedProblem(id, request, evaluatedAnswer.getIsCorrect(), errorCodes, group, child);
 

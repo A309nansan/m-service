@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class ErrorAnalysisService {
-    public Set<ProblemErrorCode> findCause(AnswerSubmissionRequest request){
+    public Set<ProblemErrorCode> findCause(AnswerSubmissionRequest request, int group, int child){
         int operand1 = request.getGeneratedProblem().getFirst();
         int operand2 = request.getGeneratedProblem().getSecond();
         Operator operator = request.getGeneratedProblem().getOperator();
@@ -24,9 +24,9 @@ public class ErrorAnalysisService {
         int submittedResult = request.getUserAnswer().getResult().toNumber();
 
         Set<ProblemErrorCode> errorCodes = EnumSet.noneOf(ProblemErrorCode.class);
-        if (isIncorrectDueToOperation(operand1, operand2, operator, submittedResult)) {
-            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION);
-        }
+
+        isIncorrectDueToOperation(operand1, operand2, operator, submittedResult, errorCodes, group, child);
+
         if (isLargerMinusSmallerOnly(operand1, operand2, operator, submittedResult)) {
             errorCodes.add(ProblemErrorCode.LARGER_MINUS_SMALLER);
         }
@@ -34,7 +34,13 @@ public class ErrorAnalysisService {
             errorCodes.add(ProblemErrorCode.ALGORITHM_MIXED_ERROR);
         }
         if (isCarryError(operand1, operand2, operator, generatedAnswer, userAnswer, submittedResult)) {
-            errorCodes.add(ProblemErrorCode.CARRY_ERROR);
+            if(operator == Operator.PLUS){
+                errorCodes.add(ProblemErrorCode.CARRY_ERROR_1);
+            } else if(operator == Operator.MIN){
+                errorCodes.add(ProblemErrorCode.CARRY_ERROR_2);
+            } else if(operator == Operator.MULT){
+                errorCodes.add(ProblemErrorCode.CARRY_ERROR_3);
+            }
         }
         if(isWrongPosition(generatedAnswer.getResult().toNumber(), submittedResult)){
             errorCodes.add(ProblemErrorCode.WRONG_POSITION);
@@ -55,13 +61,28 @@ public class ErrorAnalysisService {
      * 곱셈 문제를 덧셈 문제로 해결
      * 곱셈 문제를 뺄셈 문제로 해결
      * */
-    private boolean isIncorrectDueToOperation(int operand1, int operand2, Operator operator, int submittedResult) {
-        return operator == Operator.PLUS && submittedResult == operand1 - operand2 ||
-                operator == Operator.PLUS && submittedResult == operand1 * operand2 ||
-                operator == Operator.MIN && submittedResult == operand1 + operand2 ||
-                operator == Operator.MIN && submittedResult == operand1 * operand2 ||
-                operator == Operator.MULT && submittedResult == operand1 - operand2 ||
-                operator == Operator.MULT && submittedResult == operand1 + operand2;
+    private void isIncorrectDueToOperation(int operand1, int operand2, Operator operator, int submittedResult, Set<ProblemErrorCode> errorCodes, int group, int child) {
+        if(operator == Operator.PLUS && submittedResult == operand1 - operand2){
+            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_1);
+        } else if(operator == Operator.PLUS && submittedResult == operand1 * operand2) {
+            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_2);
+        } else if(operator == Operator.MIN && submittedResult == operand1 + operand2) {
+            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_3);
+        } else if(operator == Operator.MIN && submittedResult == operand1 * operand2) {
+            errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_4);
+        } else if(operator == Operator.MULT && submittedResult == operand1 + operand2) {
+            if(group == 5){
+                errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_5_1);
+            } else {
+                errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_5_2);
+            }
+        } else if( operator == Operator.MULT && submittedResult == operand1 - operand2) {
+            if(group == 5){
+                errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_6_1);
+            } else {
+                errorCodes.add(ProblemErrorCode.INCORRECT_OPERATION_6_2);
+            }
+        }
     }
 
     /**
