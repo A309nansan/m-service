@@ -73,7 +73,6 @@ public class ErrorAnalysisService {
             return false;
         }
 
-
         String sOp1 = String.format("%0" + Math.max(String.valueOf(operand1).length(), String.valueOf(operand2).length()) + "d", operand1);
         String sOp2 = String.format("%0" + Math.max(String.valueOf(operand1).length(), String.valueOf(operand2).length()) + "d", operand2);
         String sUser = String.format("%0" + sOp1.length() + "d", Math.abs(submittedResult));
@@ -169,10 +168,10 @@ public class ErrorAnalysisService {
     }
 
     private boolean isCarryWrong(AnswerDTO generatedAnswer, AnswerDTO userAnswer){
-        if (generatedAnswer.getCarry1() != null) {
+        if (generatedAnswer.getCarry1() != null && userAnswer.getCarry1() != null) {
             return !generatedAnswer.getCarry1().equals(userAnswer.getCarry1());
         }
-        if (generatedAnswer.getCarry2() != null) {
+        if (generatedAnswer.getCarry2() != null && userAnswer.getCarry2() != null) {
             return !generatedAnswer.getCarry2().equals(userAnswer.getCarry2());
         }
 
