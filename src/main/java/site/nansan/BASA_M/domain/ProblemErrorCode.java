@@ -6,6 +6,7 @@ import lombok.Getter;
     @Getter
     @AllArgsConstructor
     public enum ProblemErrorCode {
+        INCORRECT_OPERATION("Problem_401", "덧셈문제를 뺄셈문제로 계산했어요. 이번 차시의 덧셈 편과 뺄셈 편을 복습해보세요!"),
         INCORRECT_OPERATION_1("Problem_400_1", "덧셈문제를 뺄셈문제로 계산했어요. 이번 차시의 덧셈 편과 뺄셈 편을 복습해보세요!"),
         INCORRECT_OPERATION_2("Problem_400_2", "덧셈문제를 곱셈문제로 계산했어요. 이번 차시의 덧셈 편과 5과의 곱셈 편을 복습해보세요!"),
         INCORRECT_OPERATION_3("Problem_400_3", "뺄셈문제를 덧셈문제로 계산했어요. 이번 차시의 덧셈 편과 뺄셈 편을 복습해보세요!"),
