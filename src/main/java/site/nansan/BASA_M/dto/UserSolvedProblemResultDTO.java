@@ -21,6 +21,8 @@ public class UserSolvedProblemResultDTO {
     private AnswerDTO userAnswer;
 
     private boolean isCorrect;
+    private int basaTotalScore;
+    private int basaUserScore;
     private Set<ProblemErrorCode> errorCodes;
 
     public static UserSolvedProblemResultDTO from(UserSolvedProblem entity) {
@@ -31,6 +33,8 @@ public class UserSolvedProblemResultDTO {
                 .generatedProblem(entity.getGeneratedProblem())
                 .generatedAnswer(entity.getGeneratedAnswer())
                 .userAnswer(entity.getUserAnswer())
+                .basaTotalScore(entity.getBasaTotalScore())
+                .basaUserScore(entity.getBasaMyScore())
                 .errorCodes(entity.getErrorCodes())
                 .build();
     }

@@ -29,8 +29,8 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
         if(!evaluatedAnswer.getIsCorrect()){
             errorCodes = errorAnalysisService.findCause(request, group, child);
         }
-        userSolvedProblemService.saveUserSolvedProblem(id, request, evaluatedAnswer.getIsCorrect(), errorCodes, group, child);
+        userSolvedProblemService.saveUserSolvedProblem(id, request, evaluatedAnswer, errorCodes, group, child);
 
-        return ResponseEntity.ok(evaluatedAnswer.getScore());
+        return ResponseEntity.ok(evaluatedAnswer.getBasaMyScore());
     }
 }
