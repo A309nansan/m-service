@@ -17,9 +17,9 @@ public class ProblemScoringService {
         int userScore = scoreResultDigits(expectedResultScore, expectedAnswer.getResult(), submittedAnswer.getResult());
 
         if(isAnswerFullyCorrect(expectedResultScore, userScore)){
-            return new AnswerEvaluationDTO(true, score);
+            return new AnswerEvaluationDTO(true, expectedResultScore, score);
         } else if(problemOperator == Operator.DIV){
-            return new AnswerEvaluationDTO(false, 0);
+            return new AnswerEvaluationDTO(false, expectedResultScore, 0);
         }
 
         if (expectedAnswer.getCalculate1() != null && submittedAnswer.getCalculate1() != null)
@@ -32,7 +32,7 @@ public class ProblemScoringService {
         if(expectedAnswer.getRemainder() != null)
             userScore += calculateRemainderScore(expectedAnswer.getRemainder(), submittedAnswer.getRemainder());
 
-        return new AnswerEvaluationDTO(false, userScore);
+        return new AnswerEvaluationDTO(false, expectedResultScore, userScore);
     }
 
     private int scoreResultDigits(int resultCount, ResultDTO expectedResult, ResultDTO submittedResult) {

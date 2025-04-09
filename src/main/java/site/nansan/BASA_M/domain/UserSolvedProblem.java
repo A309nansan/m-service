@@ -33,5 +33,7 @@ public class UserSolvedProblem {
     private AnswerDTO userAnswer;
 
     private Boolean isCorrect;
+    private int basaTotalScore;
+    private int basaMyScore;
     private Set<ProblemErrorCode> errorCodes;
 }
