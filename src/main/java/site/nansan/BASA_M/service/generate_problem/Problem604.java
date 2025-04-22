@@ -1,0 +1,37 @@
+package site.nansan.BASA_M.service.generate_problem;
+
+import org.springframework.stereotype.Service;
+import site.nansan.BASA_M.domain.Operator;
+import site.nansan.BASA_M.dto.AnswerDTO;
+import site.nansan.BASA_M.dto.GeneratedProblemResponse;
+import site.nansan.BASA_M.dto.ProblemDTO;
+import site.nansan.BASA_M.util.RandomUtil;
+
+/** 나머지가 있는 두자리수 / 한자리수 */
+@Service
+public class Problem604 extends ProblemGenerationService{
+
+    @Override
+    public GeneratedProblemResponse makeProblem() {
+
+        int dividend = RandomUtil.generateRandomIntBetween(10,99);
+        int divisor = RandomUtil.generateRandomIntBetween(1,9);
+        while(dividend % divisor == 0){
+            dividend = RandomUtil.generateRandomIntBetween(10,99);
+            divisor = RandomUtil.generateRandomIntBetween(1,9);
+            if(divisor == 1){
+                dividend = RandomUtil.generateRandomIntBetween(10,99);
+                divisor = RandomUtil.generateRandomIntBetween(1,9);
+            }
+        }
+
+        return GeneratedProblemResponse.builder()
+                .problem(ProblemDTO.builder()
+                        .first(dividend)
+                        .second(divisor)
+                        .operator(Operator.DIV)
+                        .build())
+                .answer(AnswerDTO.calculateDivision(dividend, divisor))
+                .build();
+    }
+}
