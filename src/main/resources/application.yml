@@ -40,13 +40,13 @@ spring:
       password: ${MONGODB_PASSWORD}
       database: m-mongodb
       authentication-database: admin
-    # Redis
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      password: ${REDIS_PASSWORD}
-      database: 0
-      timeout: 6000ms
+  #    # Redis
+  #    redis:
+  #      host: ${REDIS_HOST}
+  #      port: ${REDIS_PORT}
+  #      password: ${REDIS_PASSWORD}
+  #      database: 0
+  #      timeout: 6000ms
 
 
   # RDBMS
@@ -100,9 +100,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka:8761/eureka
+      defaultZone: ${DEFAULT_EUREKA_URL}
 
 minio:
-  url: https://s3.nansan.site
+  url: ${MINIO_API_URL}
   access-key: ${MINIO_ACCESS_KEY}
   secret-key: ${MINIO_SECRET_KEY}
