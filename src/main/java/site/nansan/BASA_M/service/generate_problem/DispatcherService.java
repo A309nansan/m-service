@@ -23,6 +23,7 @@ public class DispatcherService {
     }
 
     public GeneratedProblemResponse generateProblem(String categoryCode){
+
             ProblemGenerationService service = Optional.ofNullable(dispatcherMap.get("Problem" + categoryCode))
                     .orElseThrow(() -> new ProblemGenerationException(ProblemGenerationErrorCode.INCORRECT_PROBLEM_CODE));
 
