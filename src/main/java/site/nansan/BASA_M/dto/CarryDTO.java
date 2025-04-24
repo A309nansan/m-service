@@ -15,6 +15,15 @@ public class CarryDTO {
     private Integer four;
     private Integer five;
 
+    public CarryDTO copy() {
+        CarryDTO dto = new CarryDTO();
+        dto.setOne(this.one);
+        dto.setTwo(this.two);
+        dto.setThree(this.three);
+        dto.setFour(this.four);
+        dto.setFive(this.five);
+        return dto;
+    }
     /** 더하기할 때 carry 계산 */
     public static CarryDTO calculateAdditionCarry(int a, int b) {
         CarryDTO dto = new CarryDTO();

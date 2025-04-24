@@ -12,6 +12,15 @@ public class CalculateDTO {
     private Integer three;
     private Integer four;
 
+    public CalculateDTO copy() {
+        CalculateDTO dto = new CalculateDTO();
+        dto.setOne(this.one);
+        dto.setTwo(this.two);
+        dto.setThree(this.three);
+        dto.setFour(this.four);
+        return dto;
+    }
+
     @JsonIgnore
     public int getSize(){
         if(four != null) return 4;
@@ -35,5 +44,14 @@ public class CalculateDTO {
             case 3 -> four != null ? four : -1;
             default -> 0;
         };
+    }
+    public void setDigitAt(int index, int value) {
+        switch (index) {
+            case 0 -> this.one = value;
+            case 1 -> this.two = value;
+            case 2 -> this.three = value;
+            case 3 -> this.four = value;
+            default -> throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
     }
 }

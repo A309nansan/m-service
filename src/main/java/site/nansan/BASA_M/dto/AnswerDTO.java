@@ -224,4 +224,23 @@ public class AnswerDTO {
             default -> {}
         }
     }
+    public AnswerDTO copy() {
+        // 각 하위 DTO가 실제로 값이 있는지(null 여부 + 내부 null 검사) 확인 후 복사
+        ResultDTO resultCopy   = (this.result      != null && this.result.getSize()         > 0) ? this.result.copy()   : null;
+        CarryDTO  carry1Copy   = (this.carry1      != null && !this.carry1.isNull())             ? this.carry1.copy()   : null;
+        CarryDTO  carry2Copy   = (this.carry2      != null && !this.carry2.isNull())             ? this.carry2.copy()   : null;
+        CalculateDTO calc1Copy = (this.calculate1  != null && !this.calculate1.isNullDTO())      ? this.calculate1.copy() : null;
+        CalculateDTO calc2Copy = (this.calculate2  != null && !this.calculate2.isNullDTO())      ? this.calculate2.copy() : null;
+        CalculateDTO calc3Copy = (this.calculate3  != null && !this.calculate3.isNullDTO())      ? this.calculate3.copy() : null;
+
+        return AnswerDTO.builder()
+                .result(resultCopy)
+                .carry1(carry1Copy)
+                .carry2(carry2Copy)
+                .calculate1(calc1Copy)
+                .calculate2(calc2Copy)
+                .calculate3(calc3Copy)
+                .remainder(this.remainder) // Integer 는 그대로 복사 (null 허용)
+                .build();
+    }
 }

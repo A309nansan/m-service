@@ -10,66 +10,91 @@ import site.nansan.BASA_M.dto.ResultDTO;
 @Service
 public class ProblemScoringService {
 
-    public AnswerEvaluationDTO computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer, Operator problemOperator) {
-        int score = expectedAnswer.calculateAnswerScore();
+    public AnswerEvaluationDTO computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer, Operator operator) {
+        int totalScore = expectedAnswer.calculateAnswerScore();
 
-        int expectedResultScore = expectedAnswer.getResult().getSize();
-        int userScore = scoreResultDigits(expectedResultScore, expectedAnswer.getResult(), submittedAnswer.getResult());
-
-        if(isAnswerFullyCorrect(expectedResultScore, userScore)){
-            return new AnswerEvaluationDTO(true, expectedResultScore, score);
-        } else if(problemOperator == Operator.DIV){
-            return new AnswerEvaluationDTO(false, expectedResultScore, 0);
+        // 정답이 동일하면 전부 정답 처리
+        if (isResultsFullyEqual(expectedAnswer.getResult(), submittedAnswer.getResult())) {
+            return AnswerEvaluationDTO.builder()
+                    .isCorrect(true)
+                    .basaTotalScore(totalScore)
+                    .basaMyScore(totalScore)
+                    .build();
         }
 
-        if (expectedAnswer.getCalculate1() != null && submittedAnswer.getCalculate1() != null)
-            userScore += scoreSectionDigits(expectedAnswer.getCalculate1(), submittedAnswer.getCalculate1());
-        if (expectedAnswer.getCalculate2() != null && submittedAnswer.getCalculate2() != null)
-            userScore += scoreSectionDigits(expectedAnswer.getCalculate2(), submittedAnswer.getCalculate2());
-        if (expectedAnswer.getCalculate3() != null && submittedAnswer.getCalculate3() != null)
-            userScore += scoreSectionDigits(expectedAnswer.getCalculate3(), submittedAnswer.getCalculate3());
-
-        if(expectedAnswer.getRemainder() != null)
-            userScore += calculateRemainderScore(expectedAnswer.getRemainder(), submittedAnswer.getRemainder());
-
-        return new AnswerEvaluationDTO(false, expectedResultScore, userScore);
-    }
-
-    private int scoreResultDigits(int resultCount, ResultDTO expectedResult, ResultDTO submittedResult) {
-        int userCount = submittedResult.getSize();
-        int score = 0;
-        for (int pos = 0; pos < resultCount; pos++) {
-            int expectedDigit = expectedResult.getDigitAt(pos);
-            int submittedDigit = submittedResult.getDigitAt(pos);
-            if (expectedDigit == submittedDigit) {
-                score++;
-            }
+        // 나눗셈 문제는 결과값이 틀리면 무조건 0점 처리
+        if (operator == Operator.DIV) {
+            return AnswerEvaluationDTO.builder()
+                    .isCorrect(false)
+                    .basaTotalScore(totalScore)
+                    .basaMyScore(0)
+                    .build();
         }
-        // 만약 user가 예상보다 더 많은 자릿수를 사용했다면 초과한 자리수마다 -1점
-        int extra = Math.max(0, userCount - resultCount);
-        score -= extra;
-        return Math.max(0, score);
+
+        int calculationsScore = scoreCalculations(expectedAnswer, submittedAnswer);
+        int remainderScore = scoreRemainder(expectedAnswer, submittedAnswer);
+        int resultScore = scoreResult(expectedAnswer.getResult(), submittedAnswer.getResult());
+
+        int userScore = resultScore + calculationsScore + remainderScore;
+
+        return AnswerEvaluationDTO.builder()
+                .isCorrect(false)
+                .basaTotalScore(totalScore)
+                .basaMyScore(userScore)
+                .build();
     }
 
-    private int scoreSectionDigits(CalculateDTO expectedAnswer, CalculateDTO submittedAnswer) {
-        int score = 0;
-        for (int pos = 0; pos < expectedAnswer.getSize(); pos++) {
-            int genDigit = expectedAnswer.getDigitAt(pos);
-            int userDigit = submittedAnswer.getDigitAt(pos);
-            if (genDigit == userDigit || genDigit == -1 && userDigit == 0) {
-                score++;
+    private int scoreResult(ResultDTO expected, ResultDTO submitted) {
+        int matched = 0;
+        int expectedSize = expected.getSize();
+        int submittedSize = submitted.getSize();
+
+        for (int i = 0; i < Math.min(expectedSize, submittedSize); i++) {
+            if (expected.getDigitAt(i) == submitted.getDigitAt(i)) {
+                matched++;
             }
         }
 
+        // 자릿수 초과에 대한 감점
+        int penalty = Math.max(0, submittedSize - expectedSize);
+        return Math.max(0, matched - penalty);
+    }
+
+    private boolean isResultsFullyEqual(ResultDTO expected, ResultDTO submitted) {
+        if (expected.getSize() != submitted.getSize()) return false;
+        for (int i = 0; i < expected.getSize(); i++) {
+            if (expected.getDigitAt(i) != submitted.getDigitAt(i)) return false;
+        }
+        return true;
+    }
+
+    private int scoreCalculations(AnswerDTO expected, AnswerDTO submitted) {
+        int total = 0;
+
+        total += scoreSection(expected.getCalculate1(), submitted.getCalculate1());
+        total += scoreSection(expected.getCalculate2(), submitted.getCalculate2());
+        total += scoreSection(expected.getCalculate3(), submitted.getCalculate3());
+
+        return total;
+    }
+
+    private int scoreSection(CalculateDTO expected, CalculateDTO submitted) {
+        if (expected == null || submitted == null) return 0;
+
+        int score = 0;
+        for (int i = 0; i < expected.getSize(); i++) {
+            int expectedDigit = expected.getDigitAt(i);
+            int submittedDigit = submitted.getDigitAt(i);
+
+            if (expectedDigit == submittedDigit || (expectedDigit == -1 && submittedDigit == 0)) {
+                score++;
+            }
+        }
         return score;
     }
 
-    private int calculateRemainderScore(int expectedAnswer, int submittedAnswer){
-        return expectedAnswer == submittedAnswer ? 1 : 0;
+    private int scoreRemainder(AnswerDTO expected, AnswerDTO submitted) {
+        if (expected.getRemainder() == null || submitted.getRemainder() == null) return 0;
+        return expected.getRemainder().equals(submitted.getRemainder()) ? 1 : 0;
     }
-
-    private boolean isAnswerFullyCorrect(int totalResultScore, int userResultScore) {
-        return totalResultScore == userResultScore;
-    }
-
 }

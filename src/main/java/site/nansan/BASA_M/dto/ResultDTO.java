@@ -19,6 +19,29 @@ public class ResultDTO {
         this.one=one;
     }
 
+    public ResultDTO copy() {
+        // 안전을 위해 기본값 0으로 생성한 뒤 수동 세터 사용 (primitive 생성자 NPE 방지)
+        ResultDTO dto = new ResultDTO(0);
+        dto.setOne(this.one);
+        dto.setTwo(this.two);
+        dto.setThree(this.three);
+        dto.setFour(this.four);
+        dto.setFive(this.five);
+        return dto;
+    }
+
+    // index 기반 접근자 (0~4)
+    public void setDigitAt(int index, int value) {
+        switch (index) {
+            case 0 -> this.one = value;
+            case 1 -> this.two = value;
+            case 2 -> this.three = value;
+            case 3 -> this.four = value;
+            case 4 -> this.five = value;
+            default -> throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
+    }
+
     public static ResultDTO from(int number){
         if(number < 0){
             throw new AnswerSubmissionException(AnswerSubmissionErrorCode.NUMBER_CANNOT_MINUS);
