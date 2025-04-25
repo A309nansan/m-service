@@ -2,9 +2,9 @@ package site.nansan.BASA_M.service.generate_problem;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.AnswerDTO;
+import site.nansan.BASA_M.domain.answer.Answer;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
-import site.nansan.BASA_M.dto.ProblemDTO;
+import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.util.RandomUtil;
 
 /** 나머지가 없는 세자리수 / 한자리수*/
@@ -21,12 +21,12 @@ public class Problem605 extends ProblemGenerationService{
         dividend = dividend * divisor;
 
         return GeneratedProblemResponse.builder()
-                .problem(ProblemDTO.builder()
+                .problem(Problem.builder()
                         .first(dividend)
                         .second(divisor)
                         .operator(Operator.DIV)
                         .build())
-                .answer(AnswerDTO.calculateDivision(dividend, divisor))
+                .answer(Answer.calculateDivision(dividend, divisor))
                 .build();
     }
 }

@@ -2,6 +2,10 @@ package site.nansan.BASA_M.service.generate_problem;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
+import site.nansan.BASA_M.domain.Problem;
+import site.nansan.BASA_M.domain.answer.Answer;
+import site.nansan.BASA_M.domain.answer.Carry;
+import site.nansan.BASA_M.domain.answer.Result;
 import site.nansan.BASA_M.dto.*;
 import site.nansan.BASA_M.util.RandomUtil;
 
@@ -20,14 +24,14 @@ public class Problem103 extends ProblemGenerationService{
         int sum = operand1 + operand2;
 
         return GeneratedProblemResponse.builder()
-                .problem(ProblemDTO.builder()
+                .problem(Problem.builder()
                         .first(operand1)
                         .second(operand2)
                         .operator(Operator.PLUS)
                         .build())
-                .answer(AnswerDTO.builder()
-                        .result(ResultDTO.from(sum))
-                        .carry1(CarryDTO.calculateAdditionCarry(operand1, operand2))
+                .answer(Answer.builder()
+                        .result(Result.from(sum))
+                        .carry1(Carry.calculateAdditionCarry(operand1, operand2))
                         .build())
                 .build();
     }

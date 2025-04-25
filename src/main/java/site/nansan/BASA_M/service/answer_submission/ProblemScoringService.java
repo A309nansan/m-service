@@ -2,15 +2,15 @@ package site.nansan.BASA_M.service.answer_submission;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
+import site.nansan.BASA_M.domain.answer.Answer;
+import site.nansan.BASA_M.domain.answer.Result;
 import site.nansan.BASA_M.dto.AnswerEvaluationDTO;
-import site.nansan.BASA_M.dto.AnswerDTO;
-import site.nansan.BASA_M.dto.CalculateDTO;
-import site.nansan.BASA_M.dto.ResultDTO;
+import site.nansan.BASA_M.domain.answer.Calculate;
 
 @Service
 public class ProblemScoringService {
 
-    public AnswerEvaluationDTO computeTotalScore(AnswerDTO expectedAnswer, AnswerDTO submittedAnswer, Operator operator) {
+    public AnswerEvaluationDTO computeTotalScore(Answer expectedAnswer, Answer submittedAnswer, Operator operator) {
         int totalScore = expectedAnswer.calculateAnswerScore();
 
         // 정답이 동일하면 전부 정답 처리
@@ -44,7 +44,7 @@ public class ProblemScoringService {
                 .build();
     }
 
-    private int scoreResult(ResultDTO expected, ResultDTO submitted) {
+    private int scoreResult(Result expected, Result submitted) {
         int matched = 0;
         int expectedSize = expected.getSize();
         int submittedSize = submitted.getSize();
@@ -60,7 +60,7 @@ public class ProblemScoringService {
         return Math.max(0, matched - penalty);
     }
 
-    private boolean isResultsFullyEqual(ResultDTO expected, ResultDTO submitted) {
+    private boolean isResultsFullyEqual(Result expected, Result submitted) {
         if (expected.getSize() != submitted.getSize()) return false;
         for (int i = 0; i < expected.getSize(); i++) {
             if (expected.getDigitAt(i) != submitted.getDigitAt(i)) return false;
@@ -68,7 +68,7 @@ public class ProblemScoringService {
         return true;
     }
 
-    private int scoreCalculations(AnswerDTO expected, AnswerDTO submitted) {
+    private int scoreCalculations(Answer expected, Answer submitted) {
         int total = 0;
 
         total += scoreSection(expected.getCalculate1(), submitted.getCalculate1());
@@ -78,7 +78,7 @@ public class ProblemScoringService {
         return total;
     }
 
-    private int scoreSection(CalculateDTO expected, CalculateDTO submitted) {
+    private int scoreSection(Calculate expected, Calculate submitted) {
         if (expected == null || submitted == null) return 0;
 
         int score = 0;
@@ -93,7 +93,7 @@ public class ProblemScoringService {
         return score;
     }
 
-    private int scoreRemainder(AnswerDTO expected, AnswerDTO submitted) {
+    private int scoreRemainder(Answer expected, Answer submitted) {
         if (expected.getRemainder() == null || submitted.getRemainder() == null) return 0;
         return expected.getRemainder().equals(submitted.getRemainder()) ? 1 : 0;
     }

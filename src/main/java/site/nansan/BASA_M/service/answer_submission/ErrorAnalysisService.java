@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
+import site.nansan.BASA_M.domain.answer.Answer;
+import site.nansan.BASA_M.domain.answer.Carry;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
-import site.nansan.BASA_M.dto.AnswerDTO;
-import site.nansan.BASA_M.dto.CarryDTO;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -15,12 +15,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ErrorAnalysisService {
     public Set<ProblemErrorCode> findCause(AnswerSubmissionRequest request, int group, int child){
+
         int operand1 = request.getGeneratedProblem().getFirst();
         int operand2 = request.getGeneratedProblem().getSecond();
         Operator operator = request.getGeneratedProblem().getOperator();
 
-        AnswerDTO generatedAnswer = request.getGeneratedAnswer();
-        AnswerDTO userAnswer = request.getUserAnswer();
+        Answer generatedAnswer = request.getGeneratedAnswer();
+        Answer userAnswer = request.getUserAnswer();
         int submittedResult = request.getUserAnswer().getResult().toNumber();
 
         Set<ProblemErrorCode> errorCodes = EnumSet.noneOf(ProblemErrorCode.class);
@@ -181,14 +182,14 @@ public class ErrorAnalysisService {
      * 오류 유형 5
      * carry 틀림 || carry 맞지만 계산을 안함
      */
-    public boolean isCarryError(int operand1, int operand2, Operator operator, AnswerDTO generatedAnswer, AnswerDTO userAnswer, int submittedResult) {
+    public boolean isCarryError(int operand1, int operand2, Operator operator, Answer generatedAnswer, Answer userAnswer, int submittedResult) {
         if(operator == Operator.DIV)
             return false;
 
         return isCarryWrong(generatedAnswer, userAnswer) || isCarryNotCalculated(operand1, operand2, operator, submittedResult, userAnswer.getCarry1());
     }
 
-    private boolean isCarryWrong(AnswerDTO generatedAnswer, AnswerDTO userAnswer){
+    private boolean isCarryWrong(Answer generatedAnswer, Answer userAnswer){
         if (generatedAnswer.getCarry1() != null && userAnswer.getCarry1() != null) {
             return !generatedAnswer.getCarry1().equals(userAnswer.getCarry1());
         }
@@ -199,7 +200,7 @@ public class ErrorAnalysisService {
         return false;
     }
 
-    private boolean isCarryNotCalculated(int operand1, int operand2, Operator operator, int submittedResult, CarryDTO carry1) {
+    private boolean isCarryNotCalculated(int operand1, int operand2, Operator operator, int submittedResult, Carry carry1) {
         if(carry1 != null && operator == Operator.PLUS && computeIsAdditionCarryNotCalculated(operand1, operand2, submittedResult)){
             return true;
         }
@@ -229,7 +230,7 @@ public class ErrorAnalysisService {
         return false;
     }
 
-    private boolean computeIsSubtractionCarryNotCalculated(int operand1, int operand2, CarryDTO carry, int submittedResult) {
+    private boolean computeIsSubtractionCarryNotCalculated(int operand1, int operand2, Carry carry, int submittedResult) {
         if(carry.getTwo() != null) {
             int currentOperand1 = (operand1 / 10) % 10;
             int currentOperand2 = (operand2 / 10) % 10;

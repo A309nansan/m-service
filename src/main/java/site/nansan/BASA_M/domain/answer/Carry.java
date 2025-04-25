@@ -1,4 +1,4 @@
-package site.nansan.BASA_M.dto;
+package site.nansan.BASA_M.domain.answer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CarryDTO {
+public class Carry {
     private Integer one;
     private Integer two;
     private Integer three;
     private Integer four;
     private Integer five;
 
-    public CarryDTO copy() {
-        CarryDTO dto = new CarryDTO();
+    public Carry copy() {
+        Carry dto = new Carry();
         dto.setOne(this.one);
         dto.setTwo(this.two);
         dto.setThree(this.three);
@@ -25,8 +25,8 @@ public class CarryDTO {
         return dto;
     }
     /** 더하기할 때 carry 계산 */
-    public static CarryDTO calculateAdditionCarry(int a, int b) {
-        CarryDTO dto = new CarryDTO();
+    public static Carry calculateAdditionCarry(int a, int b) {
+        Carry dto = new Carry();
         int carry = 0;
         int position = 1;
         while ((a > 0 || b > 0 || carry > 0) && position < 5) {
@@ -52,8 +52,8 @@ public class CarryDTO {
     }
 
     /** 빼기할 때 carry 계산 */
-    public static CarryDTO calculateSubtractionBorrow(int a, int b) {
-        CarryDTO dto = new CarryDTO();
+    public static Carry calculateSubtractionBorrow(int a, int b) {
+        Carry dto = new Carry();
         int borrow = 0;
         int position = 1;
         int origA = a;

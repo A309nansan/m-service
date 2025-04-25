@@ -1,14 +1,13 @@
-package site.nansan.BASA_M.dto;
+package site.nansan.BASA_M.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import site.nansan.BASA_M.domain.Operator;
 
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProblemDTO {
+public class Problem {
     private Integer first;
     private Integer second;
     private Operator operator;

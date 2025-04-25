@@ -3,10 +3,11 @@ package site.nansan.BASA_M.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
+import site.nansan.BASA_M.domain.answer.Answer;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -16,9 +17,9 @@ public class UserSolvedProblemResultDTO {
     private int problemNumber;
     private String solvedTime;
 
-    private ProblemDTO generatedProblem;
-    private AnswerDTO generatedAnswer;
-    private AnswerDTO userAnswer;
+    private Problem generatedProblem;
+    private Answer generatedAnswer;
+    private Answer userAnswer;
 
     private boolean isCorrect;
     private int basaTotalScore;

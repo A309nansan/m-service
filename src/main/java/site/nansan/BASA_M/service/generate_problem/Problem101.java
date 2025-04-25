@@ -2,10 +2,10 @@ package site.nansan.BASA_M.service.generate_problem;
 
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.Operator;
-import site.nansan.BASA_M.dto.AnswerDTO;
+import site.nansan.BASA_M.domain.Problem;
+import site.nansan.BASA_M.domain.answer.Answer;
+import site.nansan.BASA_M.domain.answer.Result;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
-import site.nansan.BASA_M.dto.ProblemDTO;
-import site.nansan.BASA_M.dto.ResultDTO;
 import site.nansan.BASA_M.util.RandomUtil;
 
 /** 합이 9 이하인 덧셈 */
@@ -24,13 +24,13 @@ public class Problem101 extends ProblemGenerationService{
         int sum = operand1 + operand2;
 
         return GeneratedProblemResponse.builder()
-                .problem(ProblemDTO.builder()
+                .problem(Problem.builder()
                         .first(operand1)
                         .second(operand2)
                         .operator(Operator.PLUS)
                         .build())
-                .answer(AnswerDTO.builder()
-                        .result(ResultDTO.from(sum))
+                .answer(Answer.builder()
+                        .result(Result.from(sum))
                         .build())
                 .build();
     }

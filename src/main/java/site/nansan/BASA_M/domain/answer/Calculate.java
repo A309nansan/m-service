@@ -1,4 +1,4 @@
-package site.nansan.BASA_M.dto;
+package site.nansan.BASA_M.domain.answer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CalculateDTO {
+public class Calculate {
     private Integer one;
     private Integer two;
     private Integer three;
     private Integer four;
 
-    public CalculateDTO copy() {
-        CalculateDTO dto = new CalculateDTO();
+    public Calculate copy() {
+        Calculate dto = new Calculate();
         dto.setOne(this.one);
         dto.setTwo(this.two);
         dto.setThree(this.three);

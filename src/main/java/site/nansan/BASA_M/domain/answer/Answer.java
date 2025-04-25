@@ -1,4 +1,4 @@
-package site.nansan.BASA_M.dto;
+package site.nansan.BASA_M.domain.answer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,13 +8,13 @@ import lombok.Data;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AnswerDTO {
-    ResultDTO result;
-    CarryDTO carry2;
-    CarryDTO carry1;
-    CalculateDTO calculate1;
-    CalculateDTO calculate2;
-    CalculateDTO calculate3;
+public class Answer {
+    Result result;
+    Carry carry2;
+    Carry carry1;
+    Calculate calculate1;
+    Calculate calculate2;
+    Calculate calculate3;
     Integer remainder;
 
     @JsonIgnore
@@ -29,13 +29,13 @@ public class AnswerDTO {
         return score;
     }
 
-    public static AnswerDTO calculateOneDigitMultiplication(int a, int b, boolean isOnlyForOneDigitMultiplication) {
+    public static Answer calculateOneDigitMultiplication(int a, int b, boolean isOnlyForOneDigitMultiplication) {
         int carryIdx = 1, calculateIdx = 0, currentCarry = 0;
         String aString = String.valueOf(a);
 
-        CarryDTO carry = new CarryDTO();
-        CalculateDTO calculate = new CalculateDTO();
-        ResultDTO result = ResultDTO.from(a * b);
+        Carry carry = new Carry();
+        Calculate calculate = new Calculate();
+        Result result = Result.from(a * b);
 
         for (int i = 0; i < aString.length(); i++) {
             int currentADigit = aString.charAt(aString.length() - i - 1) - '0';
@@ -57,27 +57,27 @@ public class AnswerDTO {
         }
 
         if(isOnlyForOneDigitMultiplication){
-            return AnswerDTO.builder()
+            return Answer.builder()
                     .carry1(carry.isNull() ? null : carry)
                     .result(result)
                     .build();
         }
-        return AnswerDTO.builder()
+        return Answer.builder()
                 .carry1(carry.isNull() ? null : carry)
                 .calculate1(calculate)
                 .result(result)
                 .build();
     }
 
-    public static AnswerDTO calculateTwoDigitMultiplication(int a, int b) {
-        AnswerDTO answer = calculateOneDigitMultiplication(a,b%10, false);
+    public static Answer calculateTwoDigitMultiplication(int a, int b) {
+        Answer answer = calculateOneDigitMultiplication(a,b%10, false);
 
         int carryIdx = 2, calculateIdx = 1, currentCarry = 0;
         String aString = String.valueOf(a);
 
-        CarryDTO carry = new CarryDTO();
-        CalculateDTO calculate = new CalculateDTO();
-        ResultDTO result = ResultDTO.from(a * b);
+        Carry carry = new Carry();
+        Calculate calculate = new Calculate();
+        Result result = Result.from(a * b);
         b/=10;
 
         for (int i = 0; i < aString.length(); i++) {
@@ -99,7 +99,7 @@ public class AnswerDTO {
             updateCalculate(calculate, calculateIdx, currentCarry);
         }
 
-        return AnswerDTO.builder()
+        return Answer.builder()
                 .carry1(answer.getCarry1())
                 .carry2(carry)
                 .calculate1(answer.getCalculate1())
@@ -107,15 +107,15 @@ public class AnswerDTO {
                 .result(result)
                 .build();
     }
-    public static AnswerDTO calculateDivision(int a, int b){
+    public static Answer calculateDivision(int a, int b){
         if(a / b < 10){
             return calculateLessThenTenDivision(a,b);
         }
-        CalculateDTO calculate1 = new CalculateDTO();
-        CalculateDTO calculate2 = new CalculateDTO();
-        CalculateDTO calculate3 = new CalculateDTO();
+        Calculate calculate1 = new Calculate();
+        Calculate calculate2 = new Calculate();
+        Calculate calculate3 = new Calculate();
         Integer remainNumber = null;
-        ResultDTO result = ResultDTO.from(a / b);
+        Result result = Result.from(a / b);
 
         int baseNumber = a;
         int lineOneNumber=0;
@@ -165,8 +165,8 @@ public class AnswerDTO {
         return toDTO(calculate1, calculate2, calculate3, result, remainNumber);
     }
 
-    private static AnswerDTO calculateLessThenTenDivision(int a, int b) {
-        CalculateDTO calculate1 = new CalculateDTO();
+    private static Answer calculateLessThenTenDivision(int a, int b) {
+        Calculate calculate1 = new Calculate();
         Integer remainNumber;
 
         if(a%b==0){
@@ -180,13 +180,13 @@ public class AnswerDTO {
             remainNumber = a%b;
         }
 
-        ResultDTO result = ResultDTO.from(a / b);
+        Result result = Result.from(a / b);
 
         return toDTO(calculate1,null,null,result,remainNumber);
     }
 
-    private static AnswerDTO toDTO(CalculateDTO calculate1, CalculateDTO calculate2, CalculateDTO calculate3, ResultDTO result, Integer remainder){
-        AnswerDTO.AnswerDTOBuilder builder = AnswerDTO.builder()
+    private static Answer toDTO(Calculate calculate1, Calculate calculate2, Calculate calculate3, Result result, Integer remainder){
+        Answer.AnswerBuilder builder = Answer.builder()
                 .result(result);
 
         if (calculate1 != null && !calculate1.isNullDTO()) {
@@ -205,7 +205,7 @@ public class AnswerDTO {
         return builder.build();
     }
 
-    private static void updateCalculate(CalculateDTO calculate, int idx, int value) {
+    private static void updateCalculate(Calculate calculate, int idx, int value) {
         switch (idx) {
             case 0 -> calculate.setOne(value);
             case 1 -> calculate.setTwo(value);
@@ -215,7 +215,7 @@ public class AnswerDTO {
         }
     }
 
-    private static void updateCarry(CarryDTO carry, int idx, int value) {
+    private static void updateCarry(Carry carry, int idx, int value) {
         switch (idx) {
             case 1 -> carry.setTwo(value);
             case 2 -> carry.setThree(value);
@@ -224,16 +224,16 @@ public class AnswerDTO {
             default -> {}
         }
     }
-    public AnswerDTO copy() {
+    public Answer copy() {
         // 각 하위 DTO가 실제로 값이 있는지(null 여부 + 내부 null 검사) 확인 후 복사
-        ResultDTO resultCopy   = (this.result      != null && this.result.getSize()         > 0) ? this.result.copy()   : null;
-        CarryDTO  carry1Copy   = (this.carry1      != null && !this.carry1.isNull())             ? this.carry1.copy()   : null;
-        CarryDTO  carry2Copy   = (this.carry2      != null && !this.carry2.isNull())             ? this.carry2.copy()   : null;
-        CalculateDTO calc1Copy = (this.calculate1  != null && !this.calculate1.isNullDTO())      ? this.calculate1.copy() : null;
-        CalculateDTO calc2Copy = (this.calculate2  != null && !this.calculate2.isNullDTO())      ? this.calculate2.copy() : null;
-        CalculateDTO calc3Copy = (this.calculate3  != null && !this.calculate3.isNullDTO())      ? this.calculate3.copy() : null;
+        Result resultCopy   = (this.result      != null && this.result.getSize()         > 0) ? this.result.copy()   : null;
+        Carry carry1Copy   = (this.carry1      != null && !this.carry1.isNull())             ? this.carry1.copy()   : null;
+        Carry carry2Copy   = (this.carry2      != null && !this.carry2.isNull())             ? this.carry2.copy()   : null;
+        Calculate calc1Copy = (this.calculate1  != null && !this.calculate1.isNullDTO())      ? this.calculate1.copy() : null;
+        Calculate calc2Copy = (this.calculate2  != null && !this.calculate2.isNullDTO())      ? this.calculate2.copy() : null;
+        Calculate calc3Copy = (this.calculate3  != null && !this.calculate3.isNullDTO())      ? this.calculate3.copy() : null;
 
-        return AnswerDTO.builder()
+        return Answer.builder()
                 .result(resultCopy)
                 .carry1(carry1Copy)
                 .carry2(carry2Copy)

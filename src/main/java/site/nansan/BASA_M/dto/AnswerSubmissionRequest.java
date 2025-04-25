@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import site.nansan.BASA_M.domain.Problem;
+import site.nansan.BASA_M.domain.answer.Answer;
 
 import java.time.LocalDate;
 
@@ -18,7 +20,7 @@ public class AnswerSubmissionRequest {
     private LocalDate solvedDate;
     private String solvedTime;
 
-    private ProblemDTO generatedProblem;
-    private AnswerDTO generatedAnswer;
-    private AnswerDTO userAnswer;
+    private Problem generatedProblem;
+    private Answer generatedAnswer;
+    private Answer userAnswer;
 }
