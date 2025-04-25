@@ -20,4 +20,17 @@ public interface AnswerSubmissionSwaggerController {
             @PathVariable("group") int group,
             @PathVariable("child") int child
     );
+
+    @Operation(
+            summary = "답안 저장 없이 채점만 수행"
+    )
+    @ApiResponse(responseCode = "200", description = "채점 성공")
+    @ApiResponse(responseCode = "400", description = "잘못된 요청")
+    @PostMapping("/check/{group}/{child}")
+    ResponseEntity<?> checkAnswer(
+            @RequestBody AnswerSubmissionRequest request,
+            @PathVariable("group") int group,
+            @PathVariable("child") int child
+    );
+
 }

@@ -3,34 +3,36 @@ package site.nansan.BASA_M.controller.answer_submission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import site.nansan.BASA_M.domain.ProblemErrorCode;
-import site.nansan.BASA_M.dto.AnswerEvaluationDTO;
+import site.nansan.BASA_M.dto.AnswerResponse;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
+import site.nansan.BASA_M.service.answer_submission.AnswerSubmissionFacade;
 import site.nansan.BASA_M.service.user.UserService;
-import site.nansan.BASA_M.service.answer_submission.ErrorAnalysisService;
-import site.nansan.BASA_M.service.answer_submission.ProblemScoringService;
 import site.nansan.BASA_M.service.user.UserSolvedProblemService;
-
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
 public class AnswerSubmissionController implements AnswerSubmissionSwaggerController{
     private final UserService userService;
-    private final ErrorAnalysisService errorAnalysisService;
-    private final ProblemScoringService problemScoringService;
+    private final AnswerSubmissionFacade facade;
     private final UserSolvedProblemService userSolvedProblemService;
 
     @Override
-    public ResponseEntity<?> submitAnswer(AnswerSubmissionRequest request, int group, int child) {
-        String id = userService.getAuthenticatedUserId();
-        Set<ProblemErrorCode> errorCodes = null;
-        AnswerEvaluationDTO evaluatedAnswer = problemScoringService.computeTotalScore(request.getGeneratedAnswer(), request.getUserAnswer(), request.getGeneratedProblem().getOperator());
-        if(!evaluatedAnswer.getIsCorrect()){
-            errorCodes = errorAnalysisService.findCause(request, group, child);
-        }
-        userSolvedProblemService.saveUserSolvedProblem(id, request, evaluatedAnswer, errorCodes, group, child);
+    public ResponseEntity<AnswerResponse> checkAnswer(
+            AnswerSubmissionRequest request, int group, int child) {
 
-        return ResponseEntity.ok(evaluatedAnswer.getBasaMyScore());
+        AnswerResponse res = facade.evaluate(request, group, child);
+        return ResponseEntity.ok(res);
     }
+
+    @Override
+    public ResponseEntity<AnswerResponse> submitAnswer(
+            AnswerSubmissionRequest request, int group, int child) {
+
+        String userId = userService.getAuthenticatedUserId();
+        AnswerResponse res = facade.evaluate(request, group, child);
+
+        userSolvedProblemService.saveUserSolvedProblemAsync(userId, request, res);
+        return ResponseEntity.ok(res);
+    }
+
 }
