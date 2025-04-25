@@ -23,5 +23,14 @@ public interface GenerateProblemSwaggerController {
             @PathVariable("group") int group,
             @PathVariable("child") int child
     );
+
+    @Operation(summary = "카테고리 무작위 문제 생성")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "문제 생성 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청")
+    })
+    @GetMapping("/random")
+    ResponseEntity<GeneratedProblemResponse> generateRandomProblem();
+
 }
 
