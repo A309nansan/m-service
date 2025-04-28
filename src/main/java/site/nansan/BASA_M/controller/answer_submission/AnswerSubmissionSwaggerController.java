@@ -10,20 +10,9 @@ import site.nansan.BASA_M.dto.AnswerResponse;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 
 public interface AnswerSubmissionSwaggerController {
-    @Operation(
-            summary = "문제 답안 제출"
-    )
-    @ApiResponse(responseCode = "200", description = "답안 제출 성공")
-    @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    @PostMapping("/submit/{group}/{child}")
-    ResponseEntity<?> submitAnswer(
-            @RequestBody AnswerSubmissionRequest request,
-            @PathVariable("group") int group,
-            @PathVariable("child") int child
-    );
 
     @Operation(
-            summary = "답안 저장 없이 채점만 수행"
+            summary = "(부모와 함께하기) 답안 저장 없이 채점만 수행"
     )
     @ApiResponse(responseCode = "200", description = "채점 성공")
     @ApiResponse(responseCode = "400", description = "잘못된 요청")
@@ -34,4 +23,27 @@ public interface AnswerSubmissionSwaggerController {
             @PathVariable("child") int child
     );
 
+    @Operation(
+            summary = "(스스로 하기) 문제 답안 제출"
+    )
+    @ApiResponse(responseCode = "200", description = "답안 제출 성공")
+    @ApiResponse(responseCode = "400", description = "잘못된 요청")
+    @PostMapping("/submit/{group}/{child}")
+    ResponseEntity<Void> submitAnswer(
+            @RequestBody AnswerSubmissionRequest request,
+            @PathVariable("group") int group,
+            @PathVariable("child") int child
+    );
+
+    @Operation(
+            summary = "문제 답안 제출"
+    )
+    @ApiResponse(responseCode = "200", description = "답안 제출 성공")
+    @ApiResponse(responseCode = "400", description = "잘못된 요청")
+    @PostMapping("/submit/{group}/{child}")
+    ResponseEntity<?> submitTestAnswer(
+            @RequestBody AnswerSubmissionRequest request,
+            @PathVariable("group") int group,
+            @PathVariable("child") int child
+    );
 }

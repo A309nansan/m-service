@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
-import site.nansan.BASA_M.dto.AnswerResponse;
+import site.nansan.BASA_M.dto.EvaluationResultDTO;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 import site.nansan.BASA_M.dto.UserSolvedProblemResultResponse;
 import site.nansan.BASA_M.repository.UserSolvedProblemRepository;
@@ -18,13 +18,13 @@ public class UserSolvedProblemService {
     private final UserSolvedProblemRepository repository;
 
     @Async
-    public void saveUserSolvedProblemAsync(String id, AnswerSubmissionRequest request, AnswerResponse evaluatedAnswer) {
+    public void saveUserSolvedProblemAsync(String id, AnswerSubmissionRequest request, EvaluationResultDTO evaluatedAnswer, int group, int child) {
 
         UserSolvedProblem problem = UserSolvedProblem.builder()
                 .studentId(id)
                 .solvedDate(request.getSolvedDate())
                 .solvedTime(request.getSolvedTime())
-                .categoryCode(evaluatedAnswer.getCategoryCode())
+                .categoryCode(group * 100 + child)
                 .problemNumber(request.getProblemNumber())
                 .generatedProblem(request.getGeneratedProblem())
                 .generatedAnswer(request.getGeneratedAnswer())
