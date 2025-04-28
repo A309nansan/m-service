@@ -31,12 +31,11 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
 
     /** (스스로 하기) 문제 답안 제출 */
     @Override
-    public ResponseEntity<Void> submitAnswer(AnswerSubmissionRequest request, int group, int child) {
+    public ResponseEntity<Void> submitAnswer(AnswerSubmissionRequest request, int childId, int group, int child) {
 
-        String userId = userService.getAuthenticatedUserId();
         EvaluationResultDTO response = facade.evaluate(request, group, child);
 
-        userSolvedProblemService.saveUserSolvedProblemAsync(userId, request, response, group, child);
+        userSolvedProblemService.saveUserSolvedProblemAsync(Integer.toString(childId), request, response, group, child);
 
         return ResponseEntity.ok().build();
     }

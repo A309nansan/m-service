@@ -28,9 +28,10 @@ public interface AnswerSubmissionSwaggerController {
     )
     @ApiResponse(responseCode = "200", description = "답안 제출 성공")
     @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    @PostMapping("/submit/{group}/{child}")
+    @PostMapping("/{childId}/submit/{group}/{child}")
     ResponseEntity<Void> submitAnswer(
             @RequestBody AnswerSubmissionRequest request,
+            @PathVariable("childId") int childId,
             @PathVariable("group") int group,
             @PathVariable("child") int child
     );
