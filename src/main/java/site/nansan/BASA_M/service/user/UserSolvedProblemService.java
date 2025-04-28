@@ -38,12 +38,19 @@ public class UserSolvedProblemService {
         repository.save(problem);
     }
 
-    public List<UserSolvedProblemResultResponse> getProblemsGroupedByDate(int group, int child) {
+    public List<UserSolvedProblemResultResponse> getProblemsGroupedByDate(int studentId, int group, int child) {
+
         int categoryCode = group * 100 + child;
-        List<UserSolvedProblem> problems = repository.findByCategoryCode(categoryCode,
-                Sort.by("solvedDate").descending().and(Sort.by("problemNumber").ascending()));
+
+        Sort sort = Sort.by(Sort.Order.desc("solvedDate"),
+                Sort.Order.asc("problemNumber"));
+
+        List<UserSolvedProblem> problems =
+                repository.findByStudentIdAndCategoryCode(Integer.toString(studentId), categoryCode, sort);
 
         return UserSolvedProblemResultResponse.fromGroupedByDate(problems);
+
+
     }
 
 }

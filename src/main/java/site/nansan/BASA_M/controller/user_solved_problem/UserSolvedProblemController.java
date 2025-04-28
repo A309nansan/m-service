@@ -15,8 +15,10 @@ public class UserSolvedProblemController implements UserSolvedProblemSwaggerCont
     private final UserSolvedProblemService userSolvedProblemService;
 
     @Override
-    public ResponseEntity<List<UserSolvedProblemResultResponse>> getProblemsGroupedByDate(int group, int child) {
-        List<UserSolvedProblemResultResponse> responses = userSolvedProblemService.getProblemsGroupedByDate(group, child);
+    public ResponseEntity<List<UserSolvedProblemResultResponse>> getProblemsGroupedByDate(int childId, int group, int child) {
+
+        List<UserSolvedProblemResultResponse> responses = userSolvedProblemService.getProblemsGroupedByDate(childId, group, child);
+
         return ResponseEntity.ok(responses);
     }
 
