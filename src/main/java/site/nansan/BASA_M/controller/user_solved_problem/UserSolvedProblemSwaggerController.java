@@ -18,10 +18,19 @@ public interface UserSolvedProblemSwaggerController {
     )
     @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("/{childId}/problems/{group}/{child}")
-    ResponseEntity<List<UserSolvedProblemResultResponse>> getProblemsGroupedByDate(
+    ResponseEntity<List<UserSolvedProblemResultResponse>> getProblems(
             @PathVariable("childId") int childId,
             @PathVariable("group") int group,
             @PathVariable("child") int child
     );
 
+    @Operation(
+            summary = "테스트 문제풀이 기록 조회 (날짜별 그룹)",
+            description = "테스트 데이터를 조회한 후, solvedDate별로 그룹화하여 최신 날짜 순으로 정렬된 문제풀이 기록을 반환합니다."
+    )
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @GetMapping("/test/problems/{childId}")
+    ResponseEntity<List<UserSolvedProblemResultResponse>> getTestProblems(
+            @PathVariable("childId") int childId
+    );
 }

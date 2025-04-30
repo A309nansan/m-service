@@ -4,16 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import site.nansan.BASA_M.dto.AnswerResponse;
+import site.nansan.BASA_M.dto.AnswerTestSubmissionRequest;
 import site.nansan.BASA_M.dto.EvaluationResultDTO;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 import site.nansan.BASA_M.service.answer_submission.AnswerSubmissionFacade;
-import site.nansan.BASA_M.service.user.UserService;
 import site.nansan.BASA_M.service.user.UserSolvedProblemService;
+import site.nansan.BASA_M.util.TestAnswerSubmissionMapper;
 
 @RestController
 @RequiredArgsConstructor
 public class AnswerSubmissionController implements AnswerSubmissionSwaggerController{
-    private final UserService userService;
+
     private final AnswerSubmissionFacade facade;
     private final UserSolvedProblemService userSolvedProblemService;
 
@@ -41,8 +42,19 @@ public class AnswerSubmissionController implements AnswerSubmissionSwaggerContro
     }
 
     @Override
-    public ResponseEntity<?> submitTestAnswer(AnswerSubmissionRequest request, int group, int child) {
-        return null;
+    public ResponseEntity<?> submitTestAnswer(AnswerTestSubmissionRequest request, int childId) {
+
+        TestAnswerSubmissionMapper.SplitResult res = TestAnswerSubmissionMapper.split(request);
+
+        AnswerSubmissionRequest answerSubmissionRequest = res.request();
+        int group  = res.group();
+        int child  = res.child();
+
+        EvaluationResultDTO response = facade.evaluate(answerSubmissionRequest, group, child);
+
+        userSolvedProblemService.saveUserSolvedTestProblemAsync(Integer.toString(childId), answerSubmissionRequest, response, group, child);
+
+        return ResponseEntity.ok().build();
     }
 
 }

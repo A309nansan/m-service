@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import site.nansan.BASA_M.dto.AnswerResponse;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
+import site.nansan.BASA_M.dto.AnswerTestSubmissionRequest;
 
 public interface AnswerSubmissionSwaggerController {
 
@@ -37,14 +38,14 @@ public interface AnswerSubmissionSwaggerController {
     );
 
     @Operation(
-            summary = "문제 답안 제출"
+            summary = "테스트 문제 답안 제출"
     )
     @ApiResponse(responseCode = "200", description = "답안 제출 성공")
     @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    @PostMapping("/test")
+    @PostMapping("/test/{childId}")
     ResponseEntity<?> submitTestAnswer(
-            @RequestBody AnswerSubmissionRequest request,
-            @PathVariable("group") int group,
-            @PathVariable("child") int child
+            @RequestBody AnswerTestSubmissionRequest request,
+            @PathVariable("childId") int childId
     );
+
 }

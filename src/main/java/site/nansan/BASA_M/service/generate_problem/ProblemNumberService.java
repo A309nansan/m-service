@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
+import site.nansan.BASA_M.domain.UserSolvedTestProblem;
 import site.nansan.BASA_M.repository.UserSolvedProblemRepository;
+import site.nansan.BASA_M.repository.UserSolvedTestProblemRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,45 +16,34 @@ import java.util.List;
 public class ProblemNumberService {
 
     private final UserSolvedProblemRepository repository;
+    private final UserSolvedTestProblemRepository testProblemRepository;
 
     public int getNextProblemNumber(LocalDate solvedDate, int categoryCode) {
 
-        List<UserSolvedProblem> problems = repository.findBySolvedDateAndCategoryCode(
-                solvedDate,
-                categoryCode,
-                Sort.by("problemNumber").descending()
-        );
-        if (problems.isEmpty()) {
-            return 1;
-        }
-
-        return problems.get(0).getProblemNumber() + 1;
+        return repository
+                .findTopBySolvedDateAndCategoryCodeOrderByProblemNumberDesc(
+                        solvedDate, categoryCode)
+                .map(v -> v.getProblemNumber() + 1)
+                .orElse(1);
     }
 
     public int getNextProblemNumber(String studentId, LocalDate solvedDate, int categoryCode) {
 
-        Sort sort = Sort.by(Sort.Order.desc("problemNumber"));
-
-        List<UserSolvedProblem> problems =
-                repository.findByStudentIdAndSolvedDateAndCategoryCode(
-                        studentId, solvedDate, categoryCode, sort);
-
-        return problems.isEmpty() ? 1 : problems.get(0).getProblemNumber() + 1;
+        return repository
+                .findTopByStudentIdAndSolvedDateAndCategoryCodeOrderByProblemNumberDesc(
+                        studentId, solvedDate, categoryCode)
+                .map(v -> v.getProblemNumber() + 1)
+                .orElse(1);
     }
 
+    public int getNextTestProblemNumber(String studentId) {
 
-    public int getNextTestProblemNumber(String studentId, LocalDate solvedDate, int categoryCode) {
+        LocalDate today = LocalDate.now();
 
-        List<UserSolvedProblem> problems = testProblemRepository.findBySolvedDateAndCategoryCode(
-                solvedDate,
-                categoryCode,
-                Sort.by("problemNumber").descending()
-        );
-        if (problems.isEmpty()) {
-            return 1;
-        }
-
-        return problems.get(0).getProblemNumber() + 1;
+        return testProblemRepository
+                .findTopByStudentIdAndSolvedDateOrderByProblemNumberDesc(studentId, today)
+                .map(v -> v.getProblemNumber() + 1)
+                .orElse(1);
     }
 
 }

@@ -15,9 +15,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "user_solved_problem")
-public class UserSolvedProblem {
-
+@Document(collection = "user_solved_test_problem")
+public class UserSolvedTestProblem {
     @Id
     private String id;
     private String studentId;
@@ -35,5 +34,4 @@ public class UserSolvedProblem {
     private int basaTotalScore;
     private int basaMyScore;
     private Set<ProblemErrorCode> errorCodes;
-
 }

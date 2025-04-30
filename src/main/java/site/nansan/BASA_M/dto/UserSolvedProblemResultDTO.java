@@ -6,6 +6,7 @@ import lombok.Data;
 import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.domain.ProblemErrorCode;
 import site.nansan.BASA_M.domain.UserSolvedProblem;
+import site.nansan.BASA_M.domain.UserSolvedTestProblem;
 import site.nansan.BASA_M.domain.answer.Answer;
 
 import java.util.Set;
@@ -39,4 +40,20 @@ public class UserSolvedProblemResultDTO {
                 .errorCodes(entity.getErrorCodes())
                 .build();
     }
+
+    public static UserSolvedProblemResultDTO from(UserSolvedTestProblem entity) {
+
+        return UserSolvedProblemResultDTO.builder()
+                .problemNumber(entity.getProblemNumber())
+                .isCorrect(entity.getIsCorrect())
+                .solvedTime(entity.getSolvedTime())
+                .generatedProblem(entity.getGeneratedProblem())
+                .generatedAnswer(entity.getGeneratedAnswer())
+                .userAnswer(entity.getUserAnswer())
+                .basaTotalScore(entity.getBasaTotalScore())
+                .basaUserScore(entity.getBasaMyScore())
+                .errorCodes(entity.getErrorCodes())
+                .build();
+    }
+
 }

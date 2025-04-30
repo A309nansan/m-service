@@ -15,13 +15,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AnswerSubmissionRequest {
+public class AnswerTestSubmissionRequest {
 
     private int problemNumber;
+    private int group;
+    private int child;
     private LocalDate solvedDate;
     private String solvedTime;
 
     private Problem generatedProblem;
     private Answer generatedAnswer;
     private Answer userAnswer;
+
 }
