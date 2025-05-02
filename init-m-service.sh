@@ -36,7 +36,7 @@ TOKEN_RESPONSES=$(curl -s --request POST \
 CLIENT_TOKEN=$(echo "$TOKEN_RESPONSES" | jq -r '.auth.client_token')
 
 SECRET_RESPONSE=$(curl -s --header "X-Vault-Token: ${CLIENT_TOKEN}" \
-  --request GET https://vault.nansan.site/v1/kv/data/auth)
+  --request GET https://vault.nansan.site/v1/kv/data/authentication)
 
 MONGODB_USERNAME=$(echo "$SECRET_RESPONSE" | jq -r '.data.data.mongodb.username')
 MONGODB_PASSWORD=$(echo "$SECRET_RESPONSE" | jq -r '.data.data.mongodb.password')
