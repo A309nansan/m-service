@@ -9,7 +9,7 @@ import site.nansan.BASA_M.dto.EvaluationResultDTO;
 import site.nansan.BASA_M.dto.AnswerSubmissionRequest;
 import site.nansan.BASA_M.service.answer_submission.AnswerSubmissionFacade;
 import site.nansan.BASA_M.service.user.UserSolvedProblemService;
-import site.nansan.BASA_M.util.TestAnswerSubmissionMapper;
+import site.nansan.BASA_M.global.util.TestAnswerSubmissionMapper;
 
 @RestController
 @RequiredArgsConstructor

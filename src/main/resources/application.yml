@@ -106,3 +106,13 @@ minio:
   url: ${MINIO_API_URL}
   access-key: ${MINIO_ACCESS_KEY}
   secret-key: ${MINIO_SECRET_KEY}
+
+logging:
+  level:
+    REQ: INFO
+    root: ERROR
+  pattern:
+    console: >
+      {"msg":"%m","userId":"%X{userId}","traceId":"%X{traceId}",
+      "ts":"%d{ISO8601}","latency":"%X{latency}",
+      "uri":"%X{uri}","method":"%X{method}"}%n
