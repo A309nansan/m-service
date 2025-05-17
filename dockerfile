@@ -8,6 +8,4 @@ WORKDIR /app
 
 COPY build/libs/*.jar m-service.jar
 
-EXPOSE 18082
-
 ENTRYPOINT ["java", "-jar", "/app/m-service.jar"]
