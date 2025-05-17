@@ -41,11 +41,11 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// Spring Cloud Config, Spring Cloud Bus: RabbitMQ
-//	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
 	// Minio
-//	implementation 'io.minio:minio:8.5.17'
+	implementation 'io.minio:minio:8.5.17'
 
 	// Lombok dependencies
 	compileOnly 'org.projectlombok:lombok'
