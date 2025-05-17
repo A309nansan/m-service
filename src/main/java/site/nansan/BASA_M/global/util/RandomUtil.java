@@ -1,4 +1,4 @@
-package site.nansan.BASA_M.util;
+package site.nansan.BASA_M.global.util;
 
 import site.nansan.BASA_M.global.exception.ProblemGenerationErrorCode;
 import site.nansan.BASA_M.global.exception.ProblemGenerationException;

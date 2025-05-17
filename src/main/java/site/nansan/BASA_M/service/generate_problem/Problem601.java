@@ -5,7 +5,7 @@ import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.domain.answer.Answer;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
-import site.nansan.BASA_M.util.RandomUtil;
+import site.nansan.BASA_M.global.util.RandomUtil;
 
 /** 세자리 * 한자리 */
 @Service

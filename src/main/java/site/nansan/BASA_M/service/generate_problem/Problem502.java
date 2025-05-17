@@ -5,7 +5,7 @@ import site.nansan.BASA_M.domain.Operator;
 import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.domain.answer.Answer;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
-import site.nansan.BASA_M.util.RandomUtil;
+import site.nansan.BASA_M.global.util.RandomUtil;
 
 /** 두자리 수 한자리 수 곱셈 */
 @Service

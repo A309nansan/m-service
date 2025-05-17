@@ -6,7 +6,7 @@ import site.nansan.BASA_M.domain.answer.Answer;
 import site.nansan.BASA_M.dto.GeneratedProblemResponse;
 import site.nansan.BASA_M.domain.Problem;
 import site.nansan.BASA_M.domain.answer.Result;
-import site.nansan.BASA_M.util.RandomUtil;
+import site.nansan.BASA_M.global.util.RandomUtil;
 
 /** 받아내림 없는 두자리 - 두자리 */
 @Service

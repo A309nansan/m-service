@@ -7,7 +7,7 @@ import site.nansan.BASA_M.domain.answer.Answer;
 import site.nansan.BASA_M.domain.answer.Carry;
 import site.nansan.BASA_M.domain.answer.Result;
 import site.nansan.BASA_M.dto.*;
-import site.nansan.BASA_M.util.RandomUtil;
+import site.nansan.BASA_M.global.util.RandomUtil;
 
 /** 받아내림 있는 두자리 - 한자리 */
 @Service

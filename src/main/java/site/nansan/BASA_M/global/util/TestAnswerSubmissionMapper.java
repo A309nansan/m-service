@@ -1,4 +1,4 @@
-package site.nansan.BASA_M.util;
+package site.nansan.BASA_M.global.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
