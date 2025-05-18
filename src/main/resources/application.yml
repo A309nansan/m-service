@@ -110,7 +110,7 @@ minio:
 logging:
   level:
     REQ: INFO
-    root: ERROR
+    root: INFO
   pattern:
     console: >
       {"msg":"%m","userId":"%X{userId}","traceId":"%X{traceId}",
