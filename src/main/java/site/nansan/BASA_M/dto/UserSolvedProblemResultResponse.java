@@ -7,6 +7,7 @@ import site.nansan.BASA_M.domain.UserSolvedProblem;
 import site.nansan.BASA_M.domain.UserSolvedTestProblem;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -51,15 +52,38 @@ public class UserSolvedProblemResultResponse {
                 .toList();
     }
 
-    public static List<UserSolvedProblemResultResponse> fromGroupedByDate(
-            List<UserSolvedProblem> entities) {
+//    public static List<UserSolvedProblemResultResponse> fromGroupedByDate(
+//            List<UserSolvedProblem> entities) {
+//
+//        return groupAndMap(
+//                entities,
+//                UserSolvedProblem::getSolvedDate,
+//                UserSolvedProblem::getProblemNumber,
+//                UserSolvedProblemResultDTO::from
+//        );
+//    }
 
-        return groupAndMap(
-                entities,
-                UserSolvedProblem::getSolvedDate,
-                UserSolvedProblem::getProblemNumber,
-                UserSolvedProblemResultDTO::from
-        );
+    public static List<UserSolvedProblemResultResponse> fromGroupedByDate(List<UserSolvedProblem> entities) {
+
+        List<UserSolvedProblemResultResponse> result = new ArrayList<>();
+        LocalDate currentDate = null;
+        List<UserSolvedProblemResultDTO> currentProblems = null;
+
+        for (UserSolvedProblem e : entities) {
+
+            LocalDate date = e.getSolvedDate();
+
+            if (!date.equals(currentDate)) {
+                currentDate = date;
+                currentProblems = new ArrayList<>();
+                result.add(new UserSolvedProblemResultResponse(date, currentProblems));
+            }
+
+            currentProblems.add(UserSolvedProblemResultDTO.from(e));
+        }
+
+        return result;
+
     }
 
     public static List<UserSolvedProblemResultResponse> fromGroupedByDateTest(List<UserSolvedTestProblem> entities) {
